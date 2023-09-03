@@ -2,7 +2,7 @@ package getinfo
 
 import (
 	"github.com/gofiber/fiber/v2"
-	"implude.kr/VOAH-Template-Project/configs"
+	"implude.kr/VOAH-Backend-Core/configs"
 )
 
 func GetInfoCtrl(c *fiber.Ctx) error {
