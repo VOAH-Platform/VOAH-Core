@@ -4,10 +4,8 @@ import (
 	jwtware "github.com/gofiber/contrib/jwt"
 	"github.com/gofiber/fiber/v2"
 	"implude.kr/VOAH-Backend-Core/configs"
-	"implude.kr/VOAH-Backend-Core/controllers/profile/getimage"
-	"implude.kr/VOAH-Backend-Core/controllers/profile/getprofile"
-	"implude.kr/VOAH-Backend-Core/controllers/profile/updateimage"
-	"implude.kr/VOAH-Backend-Core/controllers/profile/updateprofile"
+	"implude.kr/VOAH-Backend-Core/controllers/profile"
+	"implude.kr/VOAH-Backend-Core/controllers/profile/profileimage"
 	"implude.kr/VOAH-Backend-Core/middleware"
 )
 
@@ -21,15 +19,15 @@ func addProfile(router *fiber.App) {
 		middleware.LastActivitMiddleware,
 	)
 	profileGroup.Get("/", func(c *fiber.Ctx) error {
-		return getprofile.GetProfileCtrl(c)
+		return profile.GetProfileCtrl(c)
 	})
 	profileGroup.Post("/", func(c *fiber.Ctx) error {
-		return updateprofile.UpdateProfileCtrl(c)
+		return profile.UpdateProfileCtrl(c)
 	})
 	profileGroup.Get("/image", func(c *fiber.Ctx) error {
-		return getimage.GetImageCtrl(c)
+		return profileimage.GetImageCtrl(c)
 	})
 	profileGroup.Post("/image", func(c *fiber.Ctx) error {
-		return updateimage.UpdateImageCtrl(c)
+		return profileimage.UpdateImageCtrl(c)
 	})
 }
