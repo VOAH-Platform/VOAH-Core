@@ -45,22 +45,12 @@ func LoginCtrl(c *fiber.Ctx) error {
 			"message": "Invalid Email or Password",
 		})
 	}
-	// check sessionID
-	var sessions []models.Session
-	err := db.Model(&user).Association("Sessions").Find(&sessions)
-
-	if err != nil {
-		return c.Status(500).JSON(fiber.Map{
-			"message": "Internal server error",
+	// check sessionID is conflict
+	foundSession := new(models.Session)
+	if err := db.Where(&models.Session{DeviceID: uuid.MustParse(loginRequest.DeviceID)}).First(&foundSession).Error; err == nil {
+		return c.Status(409).JSON(fiber.Map{
+			"message": "Device is conflict",
 		})
-	}
-
-	for _, session := range sessions {
-		if session.DeviceID.String() == loginRequest.DeviceID {
-			return c.Status(409).JSON(fiber.Map{
-				"message": "Device ID Conflict",
-			})
-		}
 	}
 
 	// create session
