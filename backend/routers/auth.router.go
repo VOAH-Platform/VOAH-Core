@@ -2,11 +2,10 @@ package routers
 
 import (
 	"github.com/gofiber/fiber/v2"
-	"implude.kr/VOAH-Backend-Core/controllers/auth/checkcode"
 	"implude.kr/VOAH-Backend-Core/controllers/auth/login"
+	"implude.kr/VOAH-Backend-Core/controllers/auth/passreset"
 	"implude.kr/VOAH-Backend-Core/controllers/auth/refresh"
 	"implude.kr/VOAH-Backend-Core/controllers/auth/register"
-	"implude.kr/VOAH-Backend-Core/controllers/auth/submitcode"
 )
 
 func addAuth(router *fiber.App) {
@@ -19,14 +18,22 @@ func addAuth(router *fiber.App) {
 	authGroup.Post("/register", func(c *fiber.Ctx) error {
 		return register.RegisterCtrl(c)
 	})
-
+	authGroup.Post("/register/check", func(c *fiber.Ctx) error {
+		return register.CheckCodeCtrl(c)
+	})
+	authGroup.Post("/register/submit", func(c *fiber.Ctx) error {
+		return register.SubmitCodeCtrl(c)
+	})
 	authGroup.Post("/refresh", func(c *fiber.Ctx) error {
 		return refresh.RefreshCtrl(c)
 	})
-	authGroup.Post("/checkcode", func(c *fiber.Ctx) error {
-		return checkcode.CheckCodeCtrl(c)
+	authGroup.Get("/passreset", func(c *fiber.Ctx) error {
+		return passreset.PassResetCtrl(c)
 	})
-	authGroup.Post("/submitcode", func(c *fiber.Ctx) error {
-		return submitcode.SubmitCodeCtrl(c)
+	authGroup.Post("/passreset/check", func(c *fiber.Ctx) error {
+		return passreset.CheckPassResetCtrl(c)
+	})
+	authGroup.Post("/passreset/submit", func(c *fiber.Ctx) error {
+		return passreset.SubmitPassResetCtrl(c)
 	})
 }

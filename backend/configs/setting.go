@@ -9,11 +9,14 @@ type companySetting struct {
 }
 
 type authSetting struct {
-	AllowRegister            bool   `json:"allowRegister"` // Allow user to register
-	AllowOnlyDomain          bool   `json:"allowOnlyDomain"`
-	EmailVerificattionExpire int    `json:"emailVerificationExpire"`  // Email verification code expire time in minutes
-	VerificationEmailSubject string `json:"verificationEmailSubject"` // verification email subject
-	VerificationEmailBody    string `json:"verificationEmailBody"`    //  verification email body
+	AllowRegister             bool   `json:"allowRegister"` // Allow user to register
+	AllowOnlyDomain           bool   `json:"allowOnlyDomain"`
+	EmailVerificattionExpire  int    `json:"emailVerificationExpire"`   // Email verification code expire time in minutes
+	VerificationEmailSubject  string `json:"verificationEmailSubject"`  // verification email subject
+	VerificationEmailBody     string `json:"verificationEmailBody"`     //  verification email body
+	PasswordResetExpire       int    `json:"passwordResetExpire"`       // Password reset code expire time in minutes
+	PasswordResetEmailSubject string `json:"passwordResetEmailSubject"` // Password reset email subject
+	PasswordResetEmailBody    string `json:"passwordResetEmailBody"`    // Password reset email body
 }
 
 type MainSetting struct {
