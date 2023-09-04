@@ -27,7 +27,10 @@ func addTeam(router *fiber.App) {
 	teamGroup.Get("/list", func(c *fiber.Ctx) error {
 		return teamlist.TeamListCtrl(c)
 	})
-	teamGroup.Post("/invite", func(c *fiber.Ctx) error {
-		return teaminvite.TeamInviteCtrl(c)
+	teamGroup.Get("/invite", func(c *fiber.Ctx) error {
+		return teaminvite.TeamInviteListCtrl(c)
+	})
+	teamGroup.Post("/invite/send", func(c *fiber.Ctx) error {
+		return teaminvite.TeamInviteSendCtrl(c)
 	})
 }

@@ -1,31 +1,69 @@
 package teaminvite
 
 import (
+	"sync"
 	"time"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
+	"gorm.io/gorm"
 	"implude.kr/VOAH-Backend-Core/database"
 	"implude.kr/VOAH-Backend-Core/middleware"
 	"implude.kr/VOAH-Backend-Core/models"
+	"implude.kr/VOAH-Backend-Core/utils/async"
 	"implude.kr/VOAH-Backend-Core/utils/permission"
 	"implude.kr/VOAH-Backend-Core/utils/validator"
 )
 
-type TeamInviteRequest struct {
-	TeamID    string `json:"team-id" validate:"required,uuid4"`
-	Email     string `json:"email" validate:"required,email"`
-	ExpireMin int    `json:"expire-min" validate:"required"`
-}
-
-func TeamInviteCtrl(c *fiber.Ctx) error {
+func TeamInviteListCtrl(c *fiber.Ctx) error {
 	userID, err := middleware.GetUserID(c)
 	if err != nil {
 		return c.Status(500).JSON(fiber.Map{
 			"message": "Internal server error",
 		})
 	}
-	teamInviteRequest := new(TeamInviteRequest)
+	// get all team invites on user
+	db := database.DB
+	foundUser := new(models.User)
+	if err := db.First(&foundUser, userID).Error; err != nil {
+		return c.Status(500).JSON(fiber.Map{
+			"message": "Internal server error",
+		})
+	}
+	receivedInvites := new([]models.Invite)
+	sentInvites := new([]models.Invite)
+
+	var wait sync.WaitGroup
+	wait.Add(2)
+	async.AsyncDBQuery(func() *gorm.DB {
+		return db.Where(&models.Invite{RecieverEmail: foundUser.Email, TargetType: models.TeamObject}).Find(&receivedInvites)
+	}, &wait)
+	async.AsyncDBQuery(func() *gorm.DB {
+		return db.Where(&models.Invite{SenderID: userID, TargetType: models.TeamObject}).Find(&sentInvites)
+	}, &wait)
+	wait.Wait()
+
+	return c.JSON(fiber.Map{
+		"message":          "Success",
+		"sent-invites":     sentInvites,
+		"received-invites": receivedInvites,
+	})
+}
+
+type TeamInviteSendRequest struct {
+	TeamID    string `json:"team-id" validate:"required,uuid4"`
+	Email     string `json:"email" validate:"required,email"`
+	ExpireMin int    `json:"expire-min" validate:"required"`
+}
+
+func TeamInviteSendCtrl(c *fiber.Ctx) error {
+	userID, err := middleware.GetUserID(c)
+	if err != nil {
+		return c.Status(500).JSON(fiber.Map{
+			"message": "Internal server error",
+		})
+	}
+	teamInviteRequest := new(TeamInviteSendRequest)
 	if err := c.BodyParser(teamInviteRequest); err != nil {
 		return c.Status(400).JSON(fiber.Map{
 			"message": "Invalid request",
@@ -94,4 +132,8 @@ func TeamInviteCtrl(c *fiber.Ctx) error {
 	return c.JSON(fiber.Map{
 		"message": "Success",
 	})
+}
+
+type TeamInviteAcceptRequest struct {
+	InviteID string `json:"invite-id" validate:"required,uuid4"`
 }
