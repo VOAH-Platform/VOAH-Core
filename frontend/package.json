@@ -12,13 +12,19 @@
   "dependencies": {
     "@stitches/react": "^1.2.8",
     "@tanstack/react-query": "^4.33.0",
+    "axios": "^1.5.0",
+    "date-fns": "^2.30.0",
+    "framer-motion": "^10.16.2",
     "jotai": "^2.4.0",
+    "lucide-react": "^0.274.0",
     "react": "^18.2.0",
+    "react-alert": "^7.0.3",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.15.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.21",
+    "@types/react-alert": "^7.0.2",
     "@types/react-dom": "^18.2.7",
     "@typescript-eslint/eslint-plugin": "^6.5.0",
     "@typescript-eslint/parser": "^6.5.0",
@@ -37,6 +43,7 @@
     "prettier": "^3.0.3",
     "typescript": "^5.2.2",
     "vite": "^4.4.9",
+    "vite-plugin-svgr": "^3.2.0",
     "vite-tsconfig-paths": "^4.2.0"
   }
 }
