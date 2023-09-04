@@ -48,15 +48,19 @@ const Button = styled('button', {
 
 export function FormButton({
   children,
+  filled,
+  disabled,
   onClick,
   ...props
 }: {
   children: React.ReactNode;
+  filled?: boolean;
+  disabled?: boolean;
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   [x: string]: unknown;
 }) {
   return (
-    <Button onClick={onClick} {...props}>
+    <Button filled={filled} disabled={disabled} onClick={onClick} {...props}>
       {children}
     </Button>
   );
