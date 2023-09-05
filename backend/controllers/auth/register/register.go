@@ -76,7 +76,7 @@ func RegisterCtrl(c *fiber.Ctx) error {
 		From:    smtpConf.SystemAddress,
 		Tos:     []string{registerRequest.Email},
 		Subject: authSetting.VerificationEmailSubject,
-		Body:    strings.ReplaceAll(authSetting.VerificationEmailBody, "{{link}}", fmt.Sprintf("%s/auth/verify?type=email&user=%s&code=%s", serverConf.HostURL, registerRequest.Email, verifcationCode)),
+		Body:    strings.ReplaceAll(authSetting.VerificationEmailBody, "{{link}}", fmt.Sprintf("%s/auth/verify?type=email&email=%s&code=%s", serverConf.HostURL, registerRequest.Email, verifcationCode)),
 	}
 
 	go mail.ConnectAndSend()
