@@ -4,10 +4,10 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import { themeAtom } from '@/atom';
 import { THEME_TOKEN } from '@/constant';
+import { NotFoundPage } from '@/pages/404';
+import { VerifyPage } from '@/pages/auth/verify';
 import { IndexPage } from '@/pages/index';
 import { darkTheme, globalStyles } from '@/stitches.config';
-
-import { NotFoundPage } from './pages/404';
 
 function App() {
   const [theme] = useAtom(themeAtom);
@@ -27,7 +27,7 @@ function App() {
   const match = window.matchMedia('(prefers-color-scheme: dark)');
 
   useEffect(() => {
-    if (theme == THEME_TOKEN.SYSTEM) {
+    if (theme.token == THEME_TOKEN.SYSTEM) {
       if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
         setDarkTheme();
       } else {
@@ -43,10 +43,10 @@ function App() {
     } else {
       match.removeEventListener('change', () => {});
     }
-    if (theme == THEME_TOKEN.LIGHT) {
+    if (theme.token == THEME_TOKEN.LIGHT) {
       setLightTheme();
     }
-    if (theme == THEME_TOKEN.DARK) {
+    if (theme.token == THEME_TOKEN.DARK) {
       setDarkTheme();
     }
   }, [theme]);
@@ -56,6 +56,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route index element={<IndexPage />} />
+        <Route path="/auth/verify" element={<VerifyPage />} />
         <Route path="/*" element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>
