@@ -52,6 +52,7 @@ export function IndexPage() {
 
   const changeStep = (step: STEP) => {
     setStep(step);
+    setError('');
     switch (step) {
       case STEP.LOGIN:
         setTitle('로그인');
