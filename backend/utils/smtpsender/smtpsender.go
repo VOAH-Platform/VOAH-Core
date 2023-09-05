@@ -47,6 +47,8 @@ func (s *SMTPServerInfo) Connect() (*smtp.Client, error) {
 	}
 }
 
+const mimeString = "MIME-version: 1.0;\nContent-Type: text/html; charset=\"UTF-8\";\n\n"
+
 type Mail struct {
 	From    string   `json:"from"`
 	Tos     []string `json:"to"`
@@ -60,8 +62,8 @@ func (mail *Mail) BuildMessage() string {
 	if len(mail.Tos) > 0 {
 		message += fmt.Sprintf("To: %s\r\n", strings.Join(mail.Tos, ";"))
 	}
-
 	message += fmt.Sprintf("Subject: %s\r\n", mail.Subject)
+	message += mimeString
 	message += "\r\n" + mail.Body
 
 	return message

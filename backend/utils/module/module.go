@@ -1,7 +1,7 @@
 package module
 
 import (
-	"sync"
+	"fmt"
 
 	"github.com/go-resty/resty/v2"
 	"golang.org/x/crypto/bcrypt"
@@ -27,7 +27,6 @@ func InitModules() {
 	}
 	hashedAPIKey := string(hashedAPIKeyByte)
 
-	var wait sync.WaitGroup
 	var initModule = func(module *models.Module) {
 		if !module.Enabled {
 			log.Info("Module " + module.Name + " is skipped, because it is disabled")
@@ -36,24 +35,23 @@ func InitModules() {
 			resp, err := client.R().
 				SetHeader("HASHED-API-KEY", hashedAPIKey).
 				Get(module.HostInternalURL + "/info/init")
-			if err != nil || resp.StatusCode() != 200 {
+			if err != nil {
 				module.Enabled = false
 				db.Save(&module)
 				log.Error("Failed to get module info from " + module.Name)
 				log.Error(err.Error())
-			} else if string(resp.Body()) != configs.APIKey {
+			} else if resp.StatusCode() != 200 || string(resp.Body()) != configs.APIKey {
 				module.Enabled = false
 				db.Save(&module)
 				log.Error("[CRITICAL] Failed to verify module " + module.Name)
+				log.Error("Status code: " + fmt.Sprint(resp.StatusCode()))
+				log.Error("Response body: " + string(resp.Body()))
 			} else {
 				log.Info("Module " + module.Name + " is enabled")
 			}
 		}
-		defer wait.Done()
 	}
-	wait.Add(len(allModules))
 	for _, module := range allModules {
-		go initModule(&module)
+		initModule(&module)
 	}
-	wait.Wait()
 }
