@@ -7,6 +7,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
 	"gorm.io/gorm"
+	"implude.kr/VOAH-Backend-Core/configs"
 	"implude.kr/VOAH-Backend-Core/database"
 	"implude.kr/VOAH-Backend-Core/middleware"
 	"implude.kr/VOAH-Backend-Core/models"
@@ -16,7 +17,7 @@ import (
 )
 
 func TeamInviteListCtrl(c *fiber.Ctx) error {
-	userID, err := middleware.GetUserID(c)
+	userID, err := middleware.GetUserIDFromMiddleware(c)
 	if err != nil {
 		return c.Status(500).JSON(fiber.Map{
 			"message": "Internal server error",
@@ -36,10 +37,10 @@ func TeamInviteListCtrl(c *fiber.Ctx) error {
 	var wait sync.WaitGroup
 	wait.Add(2)
 	async.AsyncDBQuery(func() *gorm.DB {
-		return db.Where(&models.Invite{RecieverEmail: foundUser.Email, TargetType: models.TeamObject}).Find(&receivedInvites)
+		return db.Where(&models.Invite{RecieverEmail: foundUser.Email, TargetType: configs.TeamObject}).Find(&receivedInvites)
 	}, &wait)
 	async.AsyncDBQuery(func() *gorm.DB {
-		return db.Where(&models.Invite{SenderID: userID, TargetType: models.TeamObject}).Find(&sentInvites)
+		return db.Where(&models.Invite{SenderID: userID, TargetType: configs.TeamObject}).Find(&sentInvites)
 	}, &wait)
 	wait.Wait()
 
@@ -57,7 +58,7 @@ type TeamInviteSendRequest struct {
 }
 
 func TeamInviteSendCtrl(c *fiber.Ctx) error {
-	userID, err := middleware.GetUserID(c)
+	userID, err := middleware.GetUserIDFromMiddleware(c)
 	if err != nil {
 		return c.Status(500).JSON(fiber.Map{
 			"message": "Internal server error",
@@ -86,12 +87,12 @@ func TeamInviteSendCtrl(c *fiber.Ctx) error {
 	// check if user has permission
 	requierdPermission := []models.Permission{
 		{
-			Type:   models.TeamObject,
+			Type:   configs.TeamObject,
 			Target: uuid.MustParse(teamInviteRequest.TeamID),
-			Scope:  models.InvitePermissionScope,
+			Scope:  configs.InvitePermissionScope,
 		},
 	}
-	hasPerm, err := permission.UserPermissionCheck(*foundUser, requierdPermission)
+	hasPerm, err := permission.UserPermissionCheck(foundUser, requierdPermission)
 	if err != nil {
 		return c.Status(500).JSON(fiber.Map{
 			"message": "Internal server error",
@@ -119,7 +120,7 @@ func TeamInviteSendCtrl(c *fiber.Ctx) error {
 		ID:            uuid.New(),
 		SenderID:      userID,
 		RecieverEmail: teamInviteRequest.Email,
-		TargetType:    models.TeamObject,
+		TargetType:    configs.TeamObject,
 		TargetID:      uuid.MustParse(teamInviteRequest.TeamID),
 		ExpireAt:      time.Now().Add(time.Minute * time.Duration(teamInviteRequest.ExpireMin)),
 	}

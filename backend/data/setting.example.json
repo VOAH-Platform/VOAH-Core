@@ -1,0 +1,17 @@
+{
+  "company": {
+    "name": "Company Name",
+    "description": "Company Description",
+    "domain": "company.com"
+  },
+  "auth": {
+    "allowRegister": true,
+    "allowOnlyDomain": true,
+    "emailVerificattionExpire": 1800,
+    "verificationEmailSubject": "VOAH Email Verification",
+    "verificationEmailBody": "Please click on the link below to verify your email address and complete signup. <br><br> <a href='{{link}}'>Click This Link</a>",
+    "passwordResetExpire": 1800,
+    "passwordResetEmailSubject": "VOAH Password Reset",
+    "passwordResetEmailBody": "Please click on the link below to reset your password. <br><br> <a href='{{link}}'>Click This Link</a>"
+  }
+}

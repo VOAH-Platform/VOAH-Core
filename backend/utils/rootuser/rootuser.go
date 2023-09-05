@@ -57,9 +57,9 @@ func InitRootUser() {
 		// create root permission
 		newRootPermission := &models.Permission{
 			ID:     uuid.New(),
-			Type:   models.RootObject,
-			Target: models.CompanyID,
-			Scope:  models.AdminPermissionScope,
+			Type:   configs.RootObject,
+			Target: configs.CompanyID,
+			Scope:  configs.AdminPermissionScope,
 			RoleID: roleID,
 		}
 		if err := db.Create(newRootPermission).Error; err != nil {

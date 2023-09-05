@@ -4,5 +4,7 @@
 run.sh
 
 # backend
-backend/data
+backend/data/setting.json
+backend/data/user-profiles
+backend/data/api.key
 backend/tmp

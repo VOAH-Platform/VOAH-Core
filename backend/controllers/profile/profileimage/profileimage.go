@@ -19,7 +19,7 @@ type GetImageRequest struct {
 }
 
 func GetImageCtrl(c *fiber.Ctx) error {
-	_, err := middleware.GetUserID(c)
+	_, err := middleware.GetUserIDFromMiddleware(c)
 	if err != nil {
 		return c.Status(500).JSON(fiber.Map{
 			"message": "Internal server error",
@@ -48,7 +48,7 @@ type UpdateImageRequest struct {
 }
 
 func UpdateImageCtrl(c *fiber.Ctx) error {
-	userID, err := middleware.GetUserID(c)
+	userID, err := middleware.GetUserIDFromMiddleware(c)
 	if err != nil {
 		return c.Status(500).JSON(fiber.Map{
 			"message": "Internal server error",

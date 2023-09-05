@@ -58,7 +58,7 @@ func CheckCodeCtrl(c *fiber.Ctx) error {
 		})
 	}
 	myTeamInvites := []models.Invite{}
-	if err := database.DB.Where(&models.Invite{RecieverEmail: checkCodeRequest.Email, TargetType: models.TeamObject}).Find(&myTeamInvites).Error; err != nil && !errors.Is(err, gorm.ErrRecordNotFound) {
+	if err := database.DB.Where(&models.Invite{RecieverEmail: checkCodeRequest.Email, TargetType: configs.TeamObject}).Find(&myTeamInvites).Error; err != nil && !errors.Is(err, gorm.ErrRecordNotFound) {
 		return c.Status(500).JSON(fiber.Map{
 			"message": "Internal server error",
 		})
@@ -138,7 +138,7 @@ func SubmitCodeCtrl(c *fiber.Ctx) error {
 	if !checkTeam.Public {
 		// check if user has invite
 		checkInvite := new(models.Invite)
-		if err := db.Where(&models.Invite{RecieverEmail: submitCodeRequest.Email, TargetID: uuid.MustParse(submitCodeRequest.TeamID), TargetType: models.TeamObject}).First(&checkInvite).Error; err != nil {
+		if err := db.Where(&models.Invite{RecieverEmail: submitCodeRequest.Email, TargetID: uuid.MustParse(submitCodeRequest.TeamID), TargetType: configs.TeamObject}).First(&checkInvite).Error; err != nil {
 			return c.Status(400).JSON(fiber.Map{
 				"message": "Only invited user can join this team",
 			})

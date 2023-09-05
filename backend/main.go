@@ -11,6 +11,7 @@ import (
 	"implude.kr/VOAH-Backend-Core/routers"
 	"implude.kr/VOAH-Backend-Core/utils/directory"
 	"implude.kr/VOAH-Backend-Core/utils/logger"
+	"implude.kr/VOAH-Backend-Core/utils/module"
 	"implude.kr/VOAH-Backend-Core/utils/rootuser"
 	"implude.kr/VOAH-Backend-Core/utils/smtpsender"
 )
@@ -21,14 +22,16 @@ func main() {
 	logger.InitLogger()   // Intitialize logger
 
 	var wait sync.WaitGroup
-	wait.Add(4)
+	wait.Add(5)
 	go database.ConnectDB(&wait) // Connect to database
 	go database.InitRedis(&wait)
 	go directory.InitDirectory(&wait)
 	go smtpsender.InitSMTP(&wait)
+	go configs.LoadAPIKey(&wait)
 	wait.Wait()
 
 	rootuser.InitRootUser()
+	module.InitModules()
 
 	serverConf := configs.Env.Server
 	log := logger.Logger

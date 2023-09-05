@@ -5,6 +5,10 @@ import (
 	"fmt"
 	"os"
 	"strconv"
+	"sync"
+
+	"github.com/google/uuid"
+	"implude.kr/VOAH-Backend-Core/utils/logger"
 )
 
 func getEnvStr(key string, defaultValue string) (value string) {
@@ -82,4 +86,27 @@ func LoadSetting() {
 	if err = json.Unmarshal(jsonFile, &Setting); err != nil {
 		panic(err)
 	}
+}
+
+func LoadAPIKey(wait *sync.WaitGroup) {
+	log := logger.Logger
+
+	//if not found api.key, create new one
+	if _, err := os.Stat(fmt.Sprintf("%s/api.key", Env.Server.DataDir)); os.IsNotExist(err) {
+		apiKey := uuid.New().String()
+		err = os.WriteFile(fmt.Sprintf("%s/api.key", Env.Server.DataDir), []byte(apiKey), 0700)
+		if err != nil {
+			log.Fatal(err)
+		}
+	}
+
+	apiKeyByte, err := os.ReadFile(fmt.Sprintf("%s/api.key", Env.Server.DataDir))
+	if err != nil {
+		log.Fatal(err)
+	}
+	apiKey := string(apiKeyByte)
+
+	APIKey = apiKey
+	log.Info("Loaded API Key")
+	defer wait.Done()
 }

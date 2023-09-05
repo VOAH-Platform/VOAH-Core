@@ -2,6 +2,7 @@ package register
 
 import (
 	"context"
+	"fmt"
 	"strings"
 	"time"
 
@@ -69,12 +70,13 @@ func RegisterCtrl(c *fiber.Ctx) error {
 	redis.Set(ctx, verifcationCode, registerRequest.Email, time.Minute*time.Duration(authSetting.EmailVerificattionExpire))
 
 	smtpConf := configs.Env.SMTP
+	serverConf := configs.Env.Server
 
 	mail := &smtpsender.Mail{
 		From:    smtpConf.SystemAddress,
 		Tos:     []string{registerRequest.Email},
 		Subject: authSetting.VerificationEmailSubject,
-		Body:    strings.ReplaceAll(authSetting.VerificationEmailBody, "{{link}}", verifcationCode),
+		Body:    strings.ReplaceAll(authSetting.VerificationEmailBody, "{{link}}", fmt.Sprintf("%s/auth/verify?type=email&user=%s&code=%s", serverConf.HostURL, registerRequest.Email, verifcationCode)),
 	}
 
 	go mail.ConnectAndSend()

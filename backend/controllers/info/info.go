@@ -1,4 +1,4 @@
-package getinfo
+package info
 
 import (
 	"github.com/gofiber/fiber/v2"

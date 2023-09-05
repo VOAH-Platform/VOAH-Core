@@ -31,6 +31,7 @@ func ConnectDB(wait *sync.WaitGroup) {
 		&models.Session{},
 		&models.Permission{},
 		&models.Role{},
+		&models.Module{},
 	)
 	if err != nil {
 		log.Error("Failed to migrate database")
