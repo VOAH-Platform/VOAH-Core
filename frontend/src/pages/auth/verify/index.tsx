@@ -21,5 +21,5 @@ export function VerifyPage() {
     }
   }, [type, code]);
 
-  return <div>register</div>;
+  return <div>register with {email}</div>;
 }
