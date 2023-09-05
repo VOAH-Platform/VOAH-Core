@@ -94,7 +94,7 @@ func LoadAPIKey(wait *sync.WaitGroup) {
 	//if not found api.key, create new one
 	if _, err := os.Stat(fmt.Sprintf("%s/api.key", Env.Server.DataDir)); os.IsNotExist(err) {
 		apiKey := uuid.New().String()
-		err = os.WriteFile(fmt.Sprintf("%s/api.key", Env.Server.DataDir), []byte(apiKey), 0700)
+		err = os.WriteFile(fmt.Sprintf("%s/api.key", Env.Server.DataDir), []byte(apiKey), 0744)
 		if err != nil {
 			log.Fatal(err)
 		}
