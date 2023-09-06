@@ -76,7 +76,7 @@ export function IndexPage() {
   };
 
   return (
-    <IndexWrapper layout>
+    <IndexWrapper>
       <Container layout>
         <ContainerHead layout>
           {theme.isDark ? <LogoBlack /> : <LogoLight />}
@@ -87,21 +87,6 @@ export function IndexPage() {
             {step == STEP.LOGIN && (
               <AnimWrapper
                 key="login"
-                initial={{
-                  opacity: 0,
-                  display: 'none',
-                }}
-                animate={{
-                  opacity: 1,
-                  display: 'flex',
-                }}
-                transition={{
-                  duration: 0.5,
-                }}
-                exit={{
-                  opacity: 0,
-                  display: 'none',
-                }}
                 onSubmit={(e) => {
                   e.preventDefault();
                   setFormDisabled(true);
@@ -157,21 +142,6 @@ export function IndexPage() {
             {step == STEP.REGISTER && (
               <AnimWrapper
                 key="register"
-                initial={{
-                  opacity: 0,
-                  display: 'none',
-                }}
-                animate={{
-                  opacity: 1,
-                  display: 'flex',
-                }}
-                transition={{
-                  duration: 0.5,
-                }}
-                exit={{
-                  opacity: 0,
-                  display: 'none',
-                }}
                 onSubmit={(e) => {
                   e.preventDefault();
                   setFormDisabled(true);
@@ -215,21 +185,6 @@ export function IndexPage() {
             {step == STEP.PW_RESET && (
               <AnimWrapper
                 key="pw-reset"
-                initial={{
-                  opacity: 0,
-                  display: 'none',
-                }}
-                animate={{
-                  opacity: 1,
-                  display: 'flex',
-                }}
-                transition={{
-                  duration: 0.5,
-                }}
-                exit={{
-                  opacity: 0,
-                  display: 'none',
-                }}
                 onSubmit={(e) => {
                   e.preventDefault();
                   setFormDisabled(true);

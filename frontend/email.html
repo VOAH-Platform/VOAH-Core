@@ -1,17 +1,21 @@
 <!doctype html>
-<html lang='ko'>
+<html lang="ko">
   <head>
-    <meta charset='UTF-8' />
-    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>VOAH Email Verify</title>
-    <link
-      href='https://cdn.jsdelivr.net/gh/sunn-us/SUIT/fonts/variable/woff2/SUIT-Variable.css'
-      rel='stylesheet' />
     <style>
+      @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;200;300;400;500;600;700;800;900&display=swap');
+      @font-face {
+        font-family: 'SUIT Variable';
+        font-weight: 100 900;
+        src: url('https://cdn.jsdelivr.net/gh/sunn-us/SUIT/fonts/variable/woff2/SUIT-Variable.css')
+          format('woff2-variations');
+      }
       * {
         box-sizing: border-box;
         word-break: keep-all;
-        font-family: 'SUIT Variable', sans-serif;
+        font-family: 'SUIT Variable', 'Noto Sans KR', 'Nanum Gothic', 'Roboto', sans-serif;
       }
 
       html,
@@ -52,7 +56,7 @@
         border: none;
         border-radius: 16px;
         background-color: #e43475;
-        color: #fff;
+        color: #fff !important;
         text-align: center;
         font-size: 24px;
         font-weight: 700;
@@ -74,70 +78,14 @@
     </style>
   </head>
   <body>
-    <svg
-      width='116'
-      height='34'
-      viewBox='0 0 116 34'
-      fill='none'
-      xmlns='http://www.w3.org/2000/svg'>
-      <path
-        fill-rule='evenodd'
-        clip-rule='evenodd'
-        d='M0 21.4077L16 14.8669L32 21.4077V26.4595L16 33.0003L0 26.4063V21.4077ZM3.79429 24.0134V23.8007L16 19.1743L28.2057 23.8007V24.0134L16 28.6398L3.79429 24.0134Z'
-        fill='url(#paint0_linear_588_16634)' />
-      <path
-        fill-rule='evenodd'
-        clip-rule='evenodd'
-        d='M0 14.4729L16 7.93213L32 14.4729V19.5247L16 26.0655L0 19.4715V14.4729ZM3.79429 17.0786V16.8659L16 12.2395L28.2057 16.8659V17.0786L16 21.705L3.79429 17.0786Z'
-        fill='url(#paint1_linear_588_16634)' />
-      <path
-        fill-rule='evenodd'
-        clip-rule='evenodd'
-        d='M0 7.54052L16 0.999756L32 7.54052V12.5923L16 19.1331L0 12.5392V7.54052ZM3.79429 10.1462V9.93348L16 5.30709L28.2057 9.93348V10.1462L16 14.7726L3.79429 10.1462Z'
-        fill='url(#paint2_linear_588_16634)' />
-      <path
-        d='M61.736 8.36L55.64 26.312H51.944L45.392 8.36H48.68L53.744 22.208L58.448 8.36H61.736ZM70.8691 23.792C74.4691 23.792 76.7971 21.248 76.7971 17.336C76.7971 13.4 74.4691 10.856 70.8691 10.856C67.2931 10.856 64.9651 13.4 64.9651 17.336C64.9651 21.248 67.2931 23.792 70.8691 23.792ZM61.8691 17.336C61.8691 11.96 65.5891 8.168 70.8691 8.168C76.1731 8.168 79.8931 11.96 79.8931 17.336C79.8931 22.712 76.1731 26.504 70.8691 26.504C65.5891 26.504 61.8691 22.712 61.8691 17.336ZM90.7192 8.36L97.2712 26.312H93.9832L92.2792 21.608H85.3432L83.5672 26.312H80.2792L86.9752 8.36H90.7192ZM86.3272 18.944H91.2952L88.8472 12.224L86.3272 18.944ZM113.824 8.36V26.312H110.728V18.416H102.88V26.312H99.7837V8.36H102.88V15.752H110.728V8.36H113.824Z'
-        fill='#181D21' />
-      <defs>
-        <linearGradient
-          id='paint0_linear_588_16634'
-          x1='-4.97013e-08'
-          y1='23.9155'
-          x2='32'
-          y2='23.9155'
-          gradientUnits='userSpaceOnUse'>
-          <stop stop-color='#9B2ECF' />
-          <stop offset='1' stop-color='#E1115C' />
-        </linearGradient>
-        <linearGradient
-          id='paint1_linear_588_16634'
-          x1='-2.38418e-07'
-          y1='16.9988'
-          x2='32'
-          y2='16.9988'
-          gradientUnits='userSpaceOnUse'>
-          <stop stop-color='#C47FE4' />
-          <stop offset='1' stop-color='#EC669A' />
-        </linearGradient>
-        <linearGradient
-          id='paint2_linear_588_16634'
-          x1='2.18641e-07'
-          y1='10.0845'
-          x2='32'
-          y2='10.0845'
-          gradientUnits='userSpaceOnUse'>
-          <stop stop-color='#E8C8F6' />
-          <stop offset='1' stop-color='#FCBDDB' />
-        </linearGradient>
-      </defs>
-    </svg>
+    <img src="{host}/logo-with-text.svg" />
     <h1>이메일 인증</h1>
     <p>
       VOAH의 회원가입을 위해 이메일 인증을 진행합니다.
       <br />
       아래 버튼을 클릭해 회원가입 진행을 계속 진행하실 수 있습니다.
     </p>
-    <a href=''>인증하기</a>
-    <span id='comment'>본 메일은 발신 전용으로 회신이 불가능합니다.</span>
+    <a href="{host}/auth/verify?type=email&email={email}&code={code}">인증하기</a>
+    <span id="comment">본 메일은 발신 전용으로 회신이 불가능합니다.</span>
   </body>
 </html>

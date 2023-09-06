@@ -108,8 +108,7 @@ export function VerifyPage() {
     },
   });
 
-  const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleFormSubmit = async () => {
     switch (paramType) {
       case 'email': {
         const res = await emailVerify({
@@ -160,7 +159,11 @@ export function VerifyPage() {
       {data && !isError && (
         <RegisterBody>
           <RegisterTitle>회원가입</RegisterTitle>
-          <RegisterForm onSubmit={void handleFormSubmit}>
+          <RegisterForm
+            onSubmit={(e) => {
+              e.preventDefault();
+              void handleFormSubmit();
+            }}>
             <FormInput
               id="register-id"
               label="이메일"

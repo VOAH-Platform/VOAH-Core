@@ -7,3 +7,13 @@ export const HeaderWrapper = styled('div', {
   display: 'flex',
   justifyContent: 'space-between',
 });
+
+export const LeftWrapper = styled('div', {
+  display: 'flex',
+  alignItems: 'center',
+});
+
+export const RightWrapper = styled('div', {
+  display: 'flex',
+  alignItems: 'center',
+});

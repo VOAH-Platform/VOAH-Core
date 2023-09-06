@@ -21,6 +21,7 @@ export const InputLable = styled('label', {
 });
 
 export const Input = styled('input', {
+  height: '70px',
   padding: '1.25rem 1.5rem',
   color: '$gray900',
   fontSize: '1.125rem',

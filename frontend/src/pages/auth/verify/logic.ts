@@ -26,6 +26,12 @@ export const useVerifyLogic = () => {
           error: '비밀번호가 일치하지 않습니다.',
         };
       }
+      if (data.password.length < 8 || data.password.length > 40) {
+        return {
+          success: false,
+          error: '비밀번호는 8~40자 사이로 입력해주세요.',
+        };
+      }
       if (new RegExp(/^[a-z0-9_-]{4,30}$/).test(data.username) === false) {
         return {
           success: false,
@@ -60,7 +66,7 @@ export const useVerifyLogic = () => {
       }
 
       try {
-        await apiClient.post('/api/auth/register/check', {
+        await apiClient.post('/api/auth/register/submit', {
           code: data.code,
           email: data.email,
           password: data.password,
@@ -68,12 +74,14 @@ export const useVerifyLogic = () => {
           displayname: data.nickname,
           position: data.position,
           'team-id': data.team,
+          'profile-image': '',
         });
         return {
           success: true,
           value: true,
         };
       } catch (e) {
+        console.log(e);
         return {
           success: false,
           error: '회원가입에 실패했습니다.',

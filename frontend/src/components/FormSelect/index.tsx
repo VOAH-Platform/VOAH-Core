@@ -95,6 +95,7 @@ export function FormSelect({
           control: (state) =>
             !state.isFocused
               ? css({
+                  height: '70px !important',
                   padding: '0.9rem 1rem !important',
                   color: '$gray900 !important',
                   fontSize: '1.125rem !important',
@@ -105,6 +106,7 @@ export function FormSelect({
                   backgroundColor: '$gray0 !important',
                 })().className
               : css({
+                  height: '70px !important',
                   padding: '0.9rem 1rem !important',
                   color: '$gray900 !important',
                   fontSize: '1.125rem !important',

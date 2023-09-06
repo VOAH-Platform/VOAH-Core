@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 
 import { userAtom } from '@/atom';
 
+import { AppHeader } from './AppHeader';
+
 export function AppLayout() {
   const [user] = useAtom(userAtom);
 
@@ -15,5 +17,10 @@ export function AppLayout() {
     }
   }, [user]);
 
-  return <div>Login with {user.id}</div>;
+  return (
+    <>
+      <AppHeader />
+      <div>Login with {user.id}</div>
+    </>
+  );
 }
