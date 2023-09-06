@@ -9,6 +9,8 @@ import { VerifyPage } from '@/pages/auth/verify';
 import { IndexPage } from '@/pages/index';
 import { darkTheme, globalStyles } from '@/stitches.config';
 
+import { AppLayout } from './pages/app';
+
 function App() {
   const [theme] = useAtom(themeAtom);
 
@@ -57,6 +59,7 @@ function App() {
       <Routes>
         <Route index element={<IndexPage />} />
         <Route path="/auth/verify" element={<VerifyPage />} />
+        <Route path="/app" element={<AppLayout />} />
         <Route path="/*" element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>
