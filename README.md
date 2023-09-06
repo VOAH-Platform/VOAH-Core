@@ -1,1 +1,76 @@
-# official-module-boilerplate
+# VOAH Core Module
+
+![voah-logo-with-text.png](docs/voah-logo-with-text.png)
+
+---
+
+# What is VOAH? - 보아는 어떤 프로젝트인가요?
+
+VOAH Developers have used Open source Messanger “Mattermost”, Document editor “Notion” and “Github Milestone”. However, this made our project’s continuty and effciency. So we decided to develop an open source project that connects messenger, document creation, and milestones in one place and allows them to operate organically; “VOAH”
+
+VOAH 개발진은 기존에 오픈소스 메신저 Mattermost와, 문서 작성을 위한 Notion, Github 마일스톤을 사용하고 있습니다. 그러나 이렇게 분산된 서비스에서 프로젝트를 진행하는 것은 프로젝트의 연속성과 효율성을 저하시키는 원인이 되었습니다. 따라서 메신저, 문서 작성, 마일스톤을 한 곳에서 서로 연계되며 유기적으로 작동할 수 있는 오픈소스 프로젝트 VOAH를 기획하게 되었습니다.
+
+# Quick Start - 빠른 시작
+
+1. Prepare PostgreSQL, Redis and SMTP Server(if you don’t have it, you can use gmail smtp) - PostgreSQL과 Redis, SMTP Server(없다면 다면 gmail smtp를 사용할 수 있습니다)를 준비합니다
+
+1. Clone the Repository - 레포지토리를 복제합니다
+
+```bash
+git clone https://github.com/VOAH-Platform/VOAH-Core.git
+```
+
+1. Enter the Directory - 디렉토리로 이동합니다
+
+```bash
+cd ./VOAH-Core
+```
+
+1. Rename the “setting.example.json” - “setting.example.json” 파일의 이름을 바꿉니다
+
+```bash
+mv ./backend/data/setting.example.json ./backend/data/setting.json
+```
+
+1. create “.env” and add environment - “.env” 파일을 만들고 환경변수를 추가합니다
+
+```bash
+touch .env
+
+cat << EOF > .env
+AUTH_JWT_EXPIRE=3600
+AUTH_JWT_SECRET=JWTSECRETasdfiniasejasdf01238
+DB_HOST=<<PostgreSQL Host>>
+DB_NAME=<<PostgreSQL DB Name>>
+DB_PASSWORD=<<PostgreSQL Password>>
+DB_PORT=<<PostgreSQL Port>>
+DB_USERNAME=<<PostgreSQL Username>>
+INSECURESKIPVERIFY=true
+REDIS_HOST=<<Redis Host>>
+REDIS_LAST_ACTIVITY_DB=1
+REDIS_PASSWORD=<<Redis Password>>
+REDIS_PORT=<<Redis Port>>
+REDIS_SESSION_DB=0
+SERVER_CSRF_ORIGIN=*
+SERVER_HOST=0.0.0.0
+SERVER_HOST_URL=https://voah.company.com
+SERVER_PORT=8080
+SMTP_HOST=<<SMTP Host>>
+SMTP_PASSWORD=<<Mail SMTP Password>>
+SMTP_PORT=<<SMTP Port>>
+SMTP_STARTTLS=true
+SMTP_TLS=false
+SMTP_USERNAME=voah@mail.com
+SYSTEMADDRESS=voah@mail.com
+TZ=Asia/Seoul
+VOAH_ROOT_EMAIL=root@company.com
+VOAH_ROOT_PW_HASH=<<BCRYPT Hashed Root Password>>
+EOF
+```
+
+1. Build and Deploy It - 빌드하고 실행하세요
+
+```bash
+docker build -t voah-core-back:latest .
+docker run --env-file=.env -p 8080:8080 -v ./backend/data:/data --rm -h voah-core --name voah-core voah-core-back:latest
+```
