@@ -7,3 +7,10 @@ export const themeAtom = atomWithStorage('theme', {
   token: THEME_TOKEN.SYSTEM,
   isDark: false,
 });
+
+export const userAtom = atomWithStorage('user', {
+  isLogin: false,
+  id: '',
+  accessToken: '',
+  refreshToken: '',
+});

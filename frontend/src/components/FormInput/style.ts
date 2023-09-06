@@ -6,6 +6,10 @@ export const InputWrapper = styled(motion.div, {
   display: 'flex',
   flexDirection: 'column',
   gap: '0.75rem',
+
+  '& *': {
+    userSelect: 'none',
+  },
 });
 
 export const InputLable = styled('label', {
@@ -17,6 +21,7 @@ export const InputLable = styled('label', {
 });
 
 export const Input = styled('input', {
+  height: '70px',
   padding: '1.25rem 1.5rem',
   color: '$gray900',
   fontSize: '1.125rem',
@@ -31,5 +36,20 @@ export const Input = styled('input', {
   '&:focus': {
     outline: 'none',
     border: '2px solid $secondary400',
+  },
+
+  '&::placeholder': {
+    color: '$gray400',
+    fontSize: '1.125rem',
+    fontWeight: 500,
+    lineHeight: '140%',
+    letterSpacing: '-0.01125rem',
+  },
+
+  '&[disabled]': {
+    cursor: 'not-allowed',
+    background: '$gray100',
+    border: '2px solid $gray200',
+    color: '$gray400',
   },
 });

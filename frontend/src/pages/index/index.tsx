@@ -1,12 +1,13 @@
 import { AnimatePresence } from 'framer-motion';
 import { useAtom } from 'jotai';
 import { Sun, Moon } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useAlert } from 'react-alert';
+import { useNavigate } from 'react-router-dom';
 
 import LogoBlack from '@/assets/logo-black.svg';
 import LogoLight from '@/assets/logo-light.svg';
-import { themeAtom } from '@/atom';
+import { themeAtom, userAtom } from '@/atom';
 import { FormButton } from '@/components/FormButton';
 import { FormInput } from '@/components/FormInput';
 import { THEME_TOKEN } from '@/constant';
@@ -34,8 +35,10 @@ enum STEP {
 
 export function IndexPage() {
   const alert = useAlert();
+  const navigate = useNavigate();
 
   const [theme, setTheme] = useAtom(themeAtom);
+  const [user, setUser] = useAtom(userAtom);
 
   const [title, setTitle] = useState('로그인');
   const [step, setStep] = useState(STEP.LOGIN);
@@ -49,6 +52,12 @@ export function IndexPage() {
 
   const { handleLoginSubmit, handleRegisterSubmit, handlePwResetSubmit } =
     useIndexLogic();
+
+  useEffect(() => {
+    if (user.isLogin) {
+      return navigate('/app');
+    }
+  }, [user]);
 
   const changeStep = (step: STEP) => {
     setStep(step);
@@ -67,7 +76,7 @@ export function IndexPage() {
   };
 
   return (
-    <IndexWrapper layout>
+    <IndexWrapper>
       <Container layout>
         <ContainerHead layout>
           {theme.isDark ? <LogoBlack /> : <LogoLight />}
@@ -78,29 +87,20 @@ export function IndexPage() {
             {step == STEP.LOGIN && (
               <AnimWrapper
                 key="login"
-                initial={{
-                  opacity: 0,
-                  display: 'none',
-                }}
-                animate={{
-                  opacity: 1,
-                  display: 'flex',
-                }}
-                transition={{
-                  duration: 0.5,
-                }}
-                exit={{
-                  opacity: 0,
-                  display: 'none',
-                }}
                 onSubmit={(e) => {
                   e.preventDefault();
                   setFormDisabled(true);
                   void handleLoginSubmit(email, password).then((val) => {
                     console.log(val);
-                    if (!val.success) setError(val.error);
                     setFormDisabled(false);
-                    return;
+                    if (!val.success) return setError(val.error);
+                    setUser({
+                      isLogin: true,
+                      id: val.value.userId,
+                      accessToken: val.value.accessToken,
+                      refreshToken: val.value.refreshToken,
+                    });
+                    return navigate('/app');
                   });
                 }}
                 layout>
@@ -142,21 +142,6 @@ export function IndexPage() {
             {step == STEP.REGISTER && (
               <AnimWrapper
                 key="register"
-                initial={{
-                  opacity: 0,
-                  display: 'none',
-                }}
-                animate={{
-                  opacity: 1,
-                  display: 'flex',
-                }}
-                transition={{
-                  duration: 0.5,
-                }}
-                exit={{
-                  opacity: 0,
-                  display: 'none',
-                }}
                 onSubmit={(e) => {
                   e.preventDefault();
                   setFormDisabled(true);
@@ -200,21 +185,6 @@ export function IndexPage() {
             {step == STEP.PW_RESET && (
               <AnimWrapper
                 key="pw-reset"
-                initial={{
-                  opacity: 0,
-                  display: 'none',
-                }}
-                animate={{
-                  opacity: 1,
-                  display: 'flex',
-                }}
-                transition={{
-                  duration: 0.5,
-                }}
-                exit={{
-                  opacity: 0,
-                  display: 'none',
-                }}
                 onSubmit={(e) => {
                   e.preventDefault();
                   setFormDisabled(true);
