@@ -8,4 +8,5 @@ func Initialize(router *fiber.App) {
 	addProfile(router)
 	addTeam(router)
 	addCheck(router)
+	addCompany(router)
 }

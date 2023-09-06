@@ -27,14 +27,14 @@ func InitModules() {
 	}
 	hashedAPIKey := string(hashedAPIKeyByte)
 
-	var initModule = func(module *models.Module) {
+	for _, module := range allModules {
 		if !module.Enabled {
 			log.Info("Module " + module.Name + " is skipped, because it is disabled")
 		} else {
 			client := resty.New()
 			resp, err := client.R().
 				SetHeader("HASHED-API-KEY", hashedAPIKey).
-				Get(module.HostInternalURL + "/info/init")
+				Get(module.HostInternalURL + "/api/info/init")
 			if err != nil {
 				module.Enabled = false
 				db.Save(&module)
@@ -50,8 +50,5 @@ func InitModules() {
 				log.Info("Module " + module.Name + " is enabled")
 			}
 		}
-	}
-	for _, module := range allModules {
-		initModule(&module)
 	}
 }

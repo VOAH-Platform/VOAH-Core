@@ -7,4 +7,5 @@ run.sh
 backend/data/setting.json
 backend/data/user-profiles
 backend/data/api.key
+backend/data/company.webp
 backend/tmp
