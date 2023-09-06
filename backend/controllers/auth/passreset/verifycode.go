@@ -5,6 +5,7 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"golang.org/x/crypto/bcrypt"
+	"gorm.io/gorm"
 	"implude.kr/VOAH-Backend-Core/database"
 	"implude.kr/VOAH-Backend-Core/models"
 	"implude.kr/VOAH-Backend-Core/utils/validator"
@@ -84,7 +85,7 @@ func SubmitPassResetCtrl(c *fiber.Ctx) error {
 	// update password
 	db := database.DB
 	user := new(models.User)
-	if err := db.Where(&models.User{Email: passResetRequest.Email}).First(&user).Error; err != nil {
+	if err := db.Where(&models.User{Email: passResetRequest.Email}).First(&user).Error; err != nil && err != gorm.ErrRecordNotFound {
 		return c.Status(500).JSON(fiber.Map{
 			"message": "Internal server error",
 		})

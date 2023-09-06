@@ -84,7 +84,7 @@ func CheckCodeCtrl(c *fiber.Ctx) error {
 type SubmitCodeRequest struct {
 	Code         string `json:"code" validate:"required,uuid"`
 	Email        string `json:"email" validate:"required,email"`
-	Password     string `json:"password" validate:"required,min=8,max=40,alphanumunicode"`
+	Password     string `json:"password" validate:"required,min=8,max=40,ascii"`
 	Username     string `json:"username" validate:"required,min=1,max=30"`
 	Displayname  string `json:"displayname" validate:"required,min=1,max=30"`
 	Position     string `json:"position" validate:"max=30"`
@@ -130,7 +130,7 @@ func SubmitCodeCtrl(c *fiber.Ctx) error {
 
 	// check if team is public
 	checkTeam := new(models.Team)
-	if err := db.First(&checkTeam, submitCodeRequest.TeamID).Error; err != nil {
+	if err := db.First(&checkTeam, uuid.MustParse(submitCodeRequest.TeamID)).Error; err != nil {
 		return c.Status(400).JSON(fiber.Map{
 			"message": "Team not found",
 		})
