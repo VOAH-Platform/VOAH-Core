@@ -6,9 +6,9 @@
 
 # What is VOAH? - 보아는 어떤 프로젝트인가요?
 
-VOAH Developers have used Open source Messanger “Mattermost”, Document editor “Notion” and “Github Milestone”. However, this made our project’s continuty and effciency. So we decided to develop an open source project that connects messenger, document creation, and milestones in one place and allows them to operate organically; “VOAH”
+We were using assistant programs like “Mattermost”, “Notion” and “Github Milestone” to manage on-going projects. However, using various programs resulted in less project continuity and lower workflow efficiency. So we decided to develop an open source project that integrates all the assistant programs. "VOAH"; a messenger, a document manager and a milestone planner in one place.
 
-VOAH 개발진은 기존에 오픈소스 메신저 Mattermost와, 문서 작성을 위한 Notion, Github 마일스톤을 사용하고 있습니다. 그러나 이렇게 분산된 서비스에서 프로젝트를 진행하는 것은 프로젝트의 연속성과 효율성을 저하시키는 원인이 되었습니다. 따라서 메신저, 문서 작성, 마일스톤을 한 곳에서 서로 연계되며 유기적으로 작동할 수 있는 오픈소스 프로젝트 VOAH를 기획하게 되었습니다.
+저희는 기존에 오픈소스 메신저 Mattermost와, 문서 작성을 위한 Notion, Github 마일스톤을 사용하고 있습니다. 그러나 이렇게 분산된 서비스에서 프로젝트를 진행하는 것은 프로젝트의 연속성과 효율성을 저하시키는 원인이 되었습니다. 따라서 메신저, 문서 작성, 마일스톤을 한 곳에서 서로 연계되며 유기적으로 작동할 수 있는 오픈소스 프로젝트 VOAH를 기획하게 되었습니다.
 
 # Quick Start - 빠른 시작
 
