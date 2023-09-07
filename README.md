@@ -74,3 +74,9 @@ EOF
 docker build -t voah-core-back:latest .
 docker run --env-file=.env -p 8080:8080 -v ./backend/data:/data --rm -h voah-core --name voah-core voah-core-back:latest
 ```
+
+# Customizing - 커스터마이징
+
+"VOAH" support various customization feature. Check below document to see detail.
+
+"보아"는 다양한 사용자 맞춤화 기능을 지원합니다. 아래 문서를 클릭해서 자세히 보실 수 있습니다.
