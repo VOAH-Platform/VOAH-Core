@@ -8,9 +8,57 @@ export const themeAtom = atomWithStorage('theme', {
   isDark: false,
 });
 
-export const userAtom = atomWithStorage('user', {
-  isLogin: false,
-  id: '',
-  accessToken: '',
-  refreshToken: '',
-});
+interface UserData {
+  isLogin: boolean;
+  id: string;
+  accessToken: string;
+  refreshToken: string;
+}
+
+export const userAtom = atomWithStorage<UserData>(
+  'user',
+  {
+    isLogin: false,
+    id: '',
+    accessToken: '',
+    refreshToken: '',
+  },
+  {
+    getItem(key, initialValue) {
+      const storedValue = localStorage.getItem(key);
+      try {
+        return JSON.parse(storedValue ?? '') as UserData;
+      } catch {
+        return initialValue;
+      }
+    },
+    setItem(key, value) {
+      localStorage.setItem(key, JSON.stringify(value));
+    },
+    removeItem(key) {
+      localStorage.removeItem(key);
+    },
+    subscribe(key, callback, initialValue) {
+      if (
+        typeof window === 'undefined' ||
+        typeof window.addEventListener === 'undefined'
+      ) {
+        return () => {};
+      }
+      window.addEventListener('storage', (e) => {
+        if (e.storageArea === localStorage && e.key === key) {
+          let newValue: UserData;
+          try {
+            newValue = JSON.parse(e.newValue ?? '') as UserData;
+          } catch {
+            newValue = initialValue;
+          }
+          callback(newValue);
+        }
+      });
+      return () => {
+        window.removeEventListener('storage', () => {});
+      };
+    },
+  },
+);
