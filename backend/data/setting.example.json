@@ -2,7 +2,8 @@
   "company": {
     "name": "Company Name",
     "description": "Company Description",
-    "domain": "company.com"
+    "domain": "company.com",
+    "logoImageRelativePath": "company.webp"
   },
   "auth": {
     "allowRegister": true,

@@ -3,9 +3,10 @@ package configs
 var Setting *MainSetting
 
 type companySetting struct {
-	Name        string `json:"name"`        // Company name
-	Description string `json:"description"` // Company description
-	Domain      string `json:"domain"`      // Company domain
+	Name                  string `json:"name"`                  // Company name
+	Description           string `json:"description"`           // Company description
+	Domain                string `json:"domain"`                // Company domain
+	LogoImageRelativePath string `json:"logoImageRelativePath"` // Company logo image relative path
 }
 
 type authSetting struct {

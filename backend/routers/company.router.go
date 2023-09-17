@@ -21,5 +21,7 @@ func addCompany(router *fiber.App) {
 	companyGroup.Get("/", func(c *fiber.Ctx) error {
 		return company.GetCompanyInfo(c)
 	})
-
+	companyGroup.Get("/image", func(c *fiber.Ctx) error {
+		return company.GetCompanyImage(c)
+	})
 }
