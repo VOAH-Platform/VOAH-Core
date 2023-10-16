@@ -49,17 +49,13 @@ func UpdateImageCtrl(c *fiber.Ctx) error {
 		})
 	}
 	updateRequest := new(UpdateImageRequest)
-	if err := c.BodyParser(updateRequest); err != nil {
+	if errArr := validator.ParseAndValidate(c, updateRequest); errArr != nil {
 		return c.Status(400).JSON(fiber.Map{
-			"message": "Invalid request",
+			"message": "Invalid request body",
+			"errArr":  errArr,
 		})
 	}
-	if errArr := validator.VOAHValidator.Validate(updateRequest); len(errArr) != 0 {
-		return c.Status(400).JSON(fiber.Map{
-			"message": "Invalid request",
-			"error":   errArr,
-		})
-	}
+
 	serverConf := configs.Env.Server
 	imagePath := fmt.Sprintf(serverConf.DataDir+"/user-profiles/%s.png", userID.String())
 	// check if file exists

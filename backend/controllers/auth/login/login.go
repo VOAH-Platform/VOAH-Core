@@ -24,16 +24,10 @@ type LoginRequest struct {
 
 func LoginCtrl(c *fiber.Ctx) error {
 	loginRequest := new(LoginRequest)
-	if err := c.BodyParser(loginRequest); err != nil {
+	if errArr := validator.ParseAndValidate(c, loginRequest); errArr != nil {
 		return c.Status(400).JSON(fiber.Map{
-			"message": "Invalid request",
-		})
-	}
-
-	if errArr := validator.VOAHValidator.Validate(loginRequest); len(errArr) != 0 {
-		return c.Status(400).JSON(fiber.Map{
-			"message": "Invalid request",
-			"error":   errArr,
+			"message": "Invalid request body",
+			"errArr":  errArr,
 		})
 	}
 
