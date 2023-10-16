@@ -25,9 +25,9 @@ func ConnectDB(wait *sync.WaitGroup) {
 		log.Fatal(err)
 	}
 	err = DB.AutoMigrate(
-		&models.Invite{},
 		&models.Team{},
 		&models.User{},
+		&models.Invite{},
 		&models.Session{},
 		&models.Permission{},
 		&models.Role{},
