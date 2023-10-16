@@ -4,18 +4,10 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"gorm.io/gorm"
 	"implude.kr/VOAH-Backend-Core/database"
-	"implude.kr/VOAH-Backend-Core/middleware"
 	"implude.kr/VOAH-Backend-Core/models"
 )
 
 func GetModuleList(c *fiber.Ctx) error {
-	_, err := middleware.GetUserIDFromMiddleware(c)
-	if err != nil {
-		return c.Status(401).JSON(fiber.Map{
-			"success": false,
-		})
-	}
-
 	// get enabled modules
 	db := database.DB
 

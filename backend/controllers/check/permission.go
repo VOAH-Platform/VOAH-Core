@@ -6,7 +6,9 @@ import (
 )
 
 func GetPermissionCtrl(c *fiber.Ctx) error {
-	_, err := middleware.GetUserIDFromMiddleware(c)
+	_, err := middleware.GetUserFromMiddleware(c)
+	// db := database.DB
+	// foundUser := &models.User{}
 	if err != nil {
 		return c.Status(401).JSON(fiber.Map{
 			"success":    false,

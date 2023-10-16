@@ -17,7 +17,7 @@ import (
 )
 
 func TeamInviteListCtrl(c *fiber.Ctx) error {
-	userID, err := middleware.GetUserIDFromMiddleware(c)
+	user, err := middleware.GetUserFromMiddleware(c)
 	if err != nil {
 		return c.Status(500).JSON(fiber.Map{
 			"message": "Internal server error",
@@ -25,22 +25,16 @@ func TeamInviteListCtrl(c *fiber.Ctx) error {
 	}
 	// get all team invites on user
 	db := database.DB
-	foundUser := new(models.User)
-	if err := db.First(&foundUser, userID).Error; err != nil {
-		return c.Status(500).JSON(fiber.Map{
-			"message": "Internal server error",
-		})
-	}
 	receivedInvites := new([]models.Invite)
 	sentInvites := new([]models.Invite)
 
 	var wait sync.WaitGroup
 	wait.Add(2)
 	async.AsyncDBQuery(func() *gorm.DB {
-		return db.Where(&models.Invite{RecieverEmail: foundUser.Email, TargetType: configs.TeamObject}).Find(&receivedInvites)
+		return db.Where(&models.Invite{RecieverEmail: user.Email, TargetType: configs.TeamObject}).Find(&receivedInvites)
 	}, &wait)
 	async.AsyncDBQuery(func() *gorm.DB {
-		return db.Where(&models.Invite{SenderID: userID, TargetType: configs.TeamObject}).Find(&sentInvites)
+		return db.Where(&models.Invite{SenderID: user.ID, TargetType: configs.TeamObject}).Find(&sentInvites)
 	}, &wait)
 	wait.Wait()
 
@@ -58,7 +52,7 @@ type TeamInviteSendRequest struct {
 }
 
 func TeamInviteSendCtrl(c *fiber.Ctx) error {
-	userID, err := middleware.GetUserIDFromMiddleware(c)
+	user, err := middleware.GetUserFromMiddleware(c)
 	if err != nil {
 		return c.Status(500).JSON(fiber.Map{
 			"message": "Internal server error",
@@ -77,13 +71,6 @@ func TeamInviteSendCtrl(c *fiber.Ctx) error {
 		})
 	}
 
-	// get user
-	foundUser := new(models.User)
-	if err := database.DB.First(&foundUser, userID).Error; err != nil {
-		return c.Status(500).JSON(fiber.Map{
-			"message": "Internal server error",
-		})
-	}
 	// check if user has permission
 	requierdPermission := []models.Permission{
 		{
@@ -92,7 +79,7 @@ func TeamInviteSendCtrl(c *fiber.Ctx) error {
 			Scope:  configs.InvitePermissionScope,
 		},
 	}
-	hasPerm, err := permission.UserPermissionCheck(foundUser, requierdPermission)
+	hasPerm, err := permission.UserPermissionCheck(user, requierdPermission)
 	if err != nil {
 		return c.Status(500).JSON(fiber.Map{
 			"message": "Internal server error",
@@ -118,7 +105,7 @@ func TeamInviteSendCtrl(c *fiber.Ctx) error {
 	// create invite
 	newInvite := models.Invite{
 		ID:            uuid.New(),
-		SenderID:      userID,
+		SenderID:      user.ID,
 		RecieverEmail: teamInviteRequest.Email,
 		TargetType:    configs.TeamObject,
 		TargetID:      uuid.MustParse(teamInviteRequest.TeamID),
