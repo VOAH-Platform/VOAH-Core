@@ -21,7 +21,4 @@ func addCheck(router *fiber.App) {
 	checkGroup.Get("/", func(c *fiber.Ctx) error {
 		return check.CheckUserCtrl(c)
 	})
-	checkGroup.Get("/permission", func(c *fiber.Ctx) error {
-		return check.GetPermissionCtrl(c)
-	})
 }
