@@ -18,16 +18,10 @@ type RefreshRequest struct {
 
 func RefreshCtrl(c *fiber.Ctx) error {
 	refreshRequest := new(RefreshRequest)
-	if err := c.BodyParser(refreshRequest); err != nil {
-		c.Status(400).JSON(fiber.Map{
-			"message": "Invalid request",
-		})
-	}
-
-	if errArr := validator.VOAHValidator.Validate(refreshRequest); len(errArr) != 0 {
+	if errArr := validator.ParseAndValidate(c, refreshRequest); errArr != nil {
 		return c.Status(400).JSON(fiber.Map{
-			"message": "Invalid request",
-			"error":   errArr,
+			"message": "Invalid request body",
+			"errArr":  errArr,
 		})
 	}
 

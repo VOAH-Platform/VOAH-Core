@@ -59,18 +59,12 @@ func TeamInviteSendCtrl(c *fiber.Ctx) error {
 		})
 	}
 	teamInviteRequest := new(TeamInviteSendRequest)
-	if err := c.BodyParser(teamInviteRequest); err != nil {
+	if errArr := validator.ParseAndValidate(c, teamInviteRequest); errArr != nil {
 		return c.Status(400).JSON(fiber.Map{
-			"message": "Invalid request",
+			"message": "Invalid request body",
+			"errArr":  errArr,
 		})
 	}
-	if errArr := validator.VOAHValidator.Validate(teamInviteRequest); len(errArr) != 0 {
-		return c.Status(400).JSON(fiber.Map{
-			"message": "Invalid request",
-			"error":   errArr,
-		})
-	}
-
 	// check if user has permission
 	requierdPermission := []models.Permission{
 		{

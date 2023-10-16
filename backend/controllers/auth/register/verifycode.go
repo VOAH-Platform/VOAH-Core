@@ -25,16 +25,10 @@ type CheckCodeRequest struct {
 
 func CheckCodeCtrl(c *fiber.Ctx) error {
 	checkCodeRequest := new(CheckCodeRequest)
-	if err := c.BodyParser(checkCodeRequest); err != nil {
+	if errArr := validator.ParseAndValidate(c, checkCodeRequest); errArr != nil {
 		return c.Status(400).JSON(fiber.Map{
-			"message": "Invalid request",
-		})
-	}
-
-	if errArr := validator.VOAHValidator.Validate(checkCodeRequest); len(errArr) != 0 {
-		return c.Status(400).JSON(fiber.Map{
-			"message": "Invalid request",
-			"error":   errArr,
+			"message": "Invalid request body",
+			"errArr":  errArr,
 		})
 	}
 
@@ -94,18 +88,12 @@ type SubmitCodeRequest struct {
 
 func SubmitCodeCtrl(c *fiber.Ctx) error {
 	submitCodeRequest := new(SubmitCodeRequest)
-	if err := c.BodyParser(submitCodeRequest); err != nil {
+	if errArr := validator.ParseAndValidate(c, submitCodeRequest); errArr != nil {
 		return c.Status(400).JSON(fiber.Map{
-			"message": "Invalid request",
+			"message": "Invalid request body",
+			"errArr":  errArr,
 		})
 	}
-	if errArr := validator.VOAHValidator.Validate(submitCodeRequest); len(errArr) != 0 {
-		return c.Status(400).JSON(fiber.Map{
-			"message": "Invalid request",
-			"error":   errArr,
-		})
-	}
-
 	// check if unvalidated user exists
 	ctx := context.Background()
 	registerVerifyRedis := database.Redis.RegisterVerifyDB

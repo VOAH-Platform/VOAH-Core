@@ -18,15 +18,10 @@ type CheckPassResetRequest struct {
 
 func CheckPassResetCtrl(c *fiber.Ctx) error {
 	checkPassResetRequest := new(CheckPassResetRequest)
-	if err := c.BodyParser(checkPassResetRequest); err != nil {
+	if errArr := validator.ParseAndValidate(c, checkPassResetRequest); errArr != nil {
 		return c.Status(400).JSON(fiber.Map{
-			"message": "Invalid request",
-		})
-	}
-	if errArr := validator.VOAHValidator.Validate(checkPassResetRequest); len(errArr) != 0 {
-		return c.Status(400).JSON(fiber.Map{
-			"message": "Invalid request",
-			"error":   errArr,
+			"message": "Invalid request body",
+			"errArr":  errArr,
 		})
 	}
 
@@ -55,16 +50,10 @@ type SubmitPassResetRequest struct {
 
 func SubmitPassResetCtrl(c *fiber.Ctx) error {
 	passResetRequest := new(SubmitPassResetRequest)
-	if err := c.BodyParser(passResetRequest); err != nil {
+	if errArr := validator.ParseAndValidate(c, passResetRequest); errArr != nil {
 		return c.Status(400).JSON(fiber.Map{
-			"message": "Invalid request",
-		})
-	}
-
-	if errArr := validator.VOAHValidator.Validate(passResetRequest); len(errArr) != 0 {
-		return c.Status(400).JSON(fiber.Map{
-			"message": "Invalid request",
-			"error":   errArr,
+			"message": "Invalid request body",
+			"errArr":  errArr,
 		})
 	}
 
