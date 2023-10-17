@@ -88,6 +88,7 @@ export const ThemeButton = styled('button', {
   background: '$transparent',
   border: 'none',
   textAlign: 'center',
+  zIndex: 30,
 
   '&, & *': {
     cursor: 'pointer',

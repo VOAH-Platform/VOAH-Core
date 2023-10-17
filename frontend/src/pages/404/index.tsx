@@ -1,15 +1,15 @@
-import { Link } from 'react-router-dom';
+import NotFoundLogo from '@/assets/NotFound.svg';
 
-import { NotFoundSubtitle, NotFoundTitle, NotFoundWrapper } from './style';
+import { NotFoundButton, NotFoundSubtitle, NotFoundWrapper } from './style';
 
 export function NotFoundPage() {
   return (
     <NotFoundWrapper>
-      <NotFoundTitle>404</NotFoundTitle>
-      <NotFoundSubtitle>Not Found</NotFoundSubtitle>
-      <p>
-        길을 잘못 든 것 같네요... <Link to="/">처음으로 돌아갈까요?</Link>
-      </p>
+      <NotFoundLogo />
+      <NotFoundSubtitle>페이지를 찾을 수 없습니다.</NotFoundSubtitle>
+      <NotFoundButton href="/">
+        &lt;&nbsp;&nbsp;&nbsp;이전 페이지로 돌아가기
+      </NotFoundButton>
     </NotFoundWrapper>
   );
 }

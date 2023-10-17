@@ -8,16 +8,27 @@ export const NotFoundWrapper = styled('div', {
   alignItems: 'center',
 });
 
-export const NotFoundTitle = styled('h1', {
-  margin: 0,
-  fontSize: '5rem',
-  fontWeight: '$extraBold',
-  color: '$gray900',
+export const NotFoundSubtitle = styled('span', {
+  margin: '0.5rem 0 1.5rem 0',
+  fontSize: '1.5rem',
+  fontWeight: '$normal',
+  lineHeight: '140%',
+  letterSpacing: '-0.015rem',
+  color: '$gray400',
 });
 
-export const NotFoundSubtitle = styled('h2', {
-  margin: 0,
-  fontSize: '1.5rem',
-  fontWeight: '$bold',
-  color: '$gray900',
+export const NotFoundButton = styled('a', {
+  display: 'flex',
+  padding: '0.5rem 0.75rem',
+  alignItems: 'center',
+  gap: '0.25rem',
+  borderRadius: '0.75rem',
+  background: '$gray100',
+  color: '$gray600',
+  fontSize: '1rem',
+  fontWeight: '600',
+  lineHeight: '140%',
+  letterSpacing: '-0.01rem',
+  cursor: 'pointer',
+  textDecoration: 'none',
 });
