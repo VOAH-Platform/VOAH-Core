@@ -12,7 +12,7 @@ import (
 	"implude.kr/VOAH-Backend-Core/middleware"
 	"implude.kr/VOAH-Backend-Core/models"
 	"implude.kr/VOAH-Backend-Core/utils/async"
-	"implude.kr/VOAH-Backend-Core/utils/permission"
+	"implude.kr/VOAH-Backend-Core/utils/checkperm"
 	"implude.kr/VOAH-Backend-Core/utils/validator"
 )
 
@@ -73,7 +73,7 @@ func TeamInviteSendCtrl(c *fiber.Ctx) error {
 			Scope:  configs.InvitePermissionScope,
 		},
 	}
-	hasPerm, err := permission.UserPermissionCheck(user, requierdPermission)
+	hasPerm, err := checkperm.UserPermissionCheck(user, requierdPermission)
 	if err != nil {
 		return c.Status(500).JSON(fiber.Map{
 			"message": "Internal server error",

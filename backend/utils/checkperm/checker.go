@@ -1,4 +1,4 @@
-package permission
+package checkperm
 
 import (
 	"gorm.io/gorm"
@@ -24,13 +24,22 @@ func PermissionCheck(userPerms []models.Permission, requirePerms []models.Permis
 	return false
 }
 
-func GetUserPermissionArr(user *models.User) ([]models.Permission, error) {
+func GetUserRoleArr(user *models.User) ([]models.Role, error) {
 	userRoles := new([]models.Role)
 	if err := database.DB.Model(&user).Association("Roles").Find(userRoles); err != nil && err != gorm.ErrRecordNotFound {
 		return nil, err
 	}
+	return *userRoles, nil
+}
+
+func GetUserPermissionArr(user *models.User) ([]models.Permission, error) {
+	userRoles, err := GetUserRoleArr(user)
+	if err != nil {
+		return nil, err
+	}
+
 	userPerms := new([]models.Permission)
-	for _, role := range *userRoles {
+	for _, role := range userRoles {
 		tempPermissions := new([]models.Permission)
 		if err := database.DB.Model(&role).Association("Permissions").Find(tempPermissions); err != nil && err != gorm.ErrRecordNotFound {
 			return nil, err

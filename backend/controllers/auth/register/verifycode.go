@@ -117,13 +117,13 @@ func SubmitCodeCtrl(c *fiber.Ctx) error {
 	}
 
 	// check if team is public
-	checkTeam := new(models.Team)
-	if err := db.First(&checkTeam, uuid.MustParse(submitCodeRequest.TeamID)).Error; err != nil {
+	foundTeam := new(models.Team)
+	if err := db.First(&foundTeam, uuid.MustParse(submitCodeRequest.TeamID)).Error; err != nil {
 		return c.Status(400).JSON(fiber.Map{
 			"message": "Team not found",
 		})
 	}
-	if !checkTeam.Public {
+	if !foundTeam.Public {
 		// check if user has invite
 		checkInvite := new(models.Invite)
 		if err := db.Where(&models.Invite{RecieverEmail: submitCodeRequest.Email, TargetID: uuid.MustParse(submitCodeRequest.TeamID), TargetType: configs.TeamObject}).First(&checkInvite).Error; err != nil {
@@ -150,7 +150,7 @@ func SubmitCodeCtrl(c *fiber.Ctx) error {
 		PWHash:      string(pwHash),
 		Username:    submitCodeRequest.Username,
 		Displayname: submitCodeRequest.Displayname,
-		TeamID:      uuid.MustParse(submitCodeRequest.TeamID),
+		TeamID:      foundTeam.ID,
 		Position:    submitCodeRequest.Position,
 	}
 	if registerVerifyRedis.Del(ctx, submitCodeRequest.Code).Err() != nil {
@@ -192,6 +192,34 @@ func SubmitCodeCtrl(c *fiber.Ctx) error {
 	lastRefreshRedis := database.Redis.LastRefreshRedis
 	go lastActivityRedis.Set(ctx, userID.String(), time.Now().Unix(), 0)
 	go lastRefreshRedis.Set(ctx, userID.String(), time.Now().Unix(), 0)
+
+	userRole := models.Role{
+		ID:    uuid.New(),
+		Type:  "Personal",
+		Name:  "[Personal]" + newUser.Username,
+		Users: []models.User{*newUser},
+	}
+
+	if err := db.Create(&userRole).Error; err != nil {
+		return c.Status(500).JSON(fiber.Map{
+			"message": "Internal server error",
+		})
+	}
+
+	userPermission := models.Permission{
+		ID:     uuid.New(),
+		Type:   configs.TeamObject,
+		Target: foundTeam.ID,
+		Scope:  configs.ReadPermissionScope,
+		RoleID: userRole.ID,
+	}
+
+	if err := db.Create(&userPermission).Error; err != nil {
+		return c.Status(500).JSON(fiber.Map{
+			"message": "Internal server error",
+		})
+	}
+
 	return c.JSON(fiber.Map{
 		"message": "Submit code success",
 	})

@@ -3,7 +3,7 @@ package check
 import (
 	"github.com/gofiber/fiber/v2"
 	"implude.kr/VOAH-Backend-Core/middleware"
-	"implude.kr/VOAH-Backend-Core/utils/permission"
+	"implude.kr/VOAH-Backend-Core/utils/checkperm"
 )
 
 func CheckUserCtrl(c *fiber.Ctx) error {
@@ -14,7 +14,7 @@ func CheckUserCtrl(c *fiber.Ctx) error {
 		})
 	}
 
-	perms, err := permission.GetUserPermissionArr(user)
+	perms, err := checkperm.GetUserPermissionArr(user)
 	if err != nil {
 		return c.Status(500).JSON(fiber.Map{
 			"message": "Internal server error",
@@ -23,6 +23,7 @@ func CheckUserCtrl(c *fiber.Ctx) error {
 
 	return c.Status(200).JSON(fiber.Map{
 		"success":    true,
+		"user-id":    user.ID,
 		"permission": perms,
 	})
 }
