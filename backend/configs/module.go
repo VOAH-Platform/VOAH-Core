@@ -41,13 +41,15 @@ const (
 	AdminPermissionScope  PermissionScope = "admin"
 	EditPermissionScope   PermissionScope = "edit"
 	InvitePermissionScope PermissionScope = "invite"
+	ReadPermissionScope   PermissionScope = "read"
 )
 
 func (p PermissionScope) IsValid() bool {
 	switch p {
 	case AdminPermissionScope,
 		EditPermissionScope,
-		InvitePermissionScope:
+		InvitePermissionScope,
+		ReadPermissionScope:
 		return true
 	}
 	return false

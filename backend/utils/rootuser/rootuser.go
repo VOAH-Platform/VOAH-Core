@@ -46,7 +46,8 @@ func InitRootUser() {
 		roleID := uuid.New()
 		newRootRole := &models.Role{
 			ID:          roleID,
-			Displayname: "root",
+			Type:        "Personal",
+			Name:        "[Personal]root",
 			Description: "root role",
 			Users:       []models.User{*newRootUser},
 		}
