@@ -23,6 +23,7 @@ func CheckUserCtrl(c *fiber.Ctx) error {
 
 	return c.Status(200).JSON(fiber.Map{
 		"success":    true,
+		"user-id":    user.ID,
 		"permission": perms,
 	})
 }
