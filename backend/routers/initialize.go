@@ -9,4 +9,6 @@ func Initialize(router *fiber.App) {
 	addTeam(router)
 	addCheck(router)
 	addCompany(router)
+	addRole(router)
+	addPermission(router)
 }
