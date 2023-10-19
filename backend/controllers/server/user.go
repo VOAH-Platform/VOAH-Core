@@ -1,4 +1,4 @@
-package check
+package server
 
 import (
 	"github.com/gofiber/fiber/v2"
