@@ -20,20 +20,23 @@ type GetImageRequest struct {
 
 func GetImageCtrl(c *fiber.Ctx) error {
 
-	profileRequest := GetImageRequest{
-		UserID: c.Query("user-id"),
+	userUUID, err := uuid.Parse(c.Query("user-id", ""))
+	if err != nil {
+		return c.Status(400).JSON(fiber.Map{
+			"message": "Invalid request",
+		})
 	}
 	db := database.DB
 	user := new(models.User)
 
-	if err := db.First(&user, uuid.MustParse(profileRequest.UserID)).Error; err != nil && !user.Visible {
+	if err := db.First(&user, userUUID).Error; err != nil && !user.Visible {
 		return c.Status(400).JSON(fiber.Map{
 			"message": "User not found",
 		})
 	}
 	// return profile image
 	serverConf := configs.Env.Server
-	return c.SendFile(fmt.Sprintf(serverConf.DataDir+"/user-profiles/%s.png", profileRequest.UserID))
+	return c.SendFile(fmt.Sprintf(serverConf.DataDir+"/user-profiles/%s.png", userUUID.String()))
 
 }
 

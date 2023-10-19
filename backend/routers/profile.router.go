@@ -14,6 +14,9 @@ func addProfile(router *fiber.App) {
 
 	profileGroup.Use(
 		jwtware.New(jwtware.Config{
+			Filter: func(c *fiber.Ctx) bool {
+				return c.Path() == "/api/profile/image" && c.Method() == "GET"
+			},
 			SigningKey: jwtware.SigningKey{Key: configs.Env.Auth.JWTSecret},
 		}),
 		middleware.LastActivitMiddleware,
