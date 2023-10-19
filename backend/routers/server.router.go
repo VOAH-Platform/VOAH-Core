@@ -14,11 +14,17 @@ func addServer(router *fiber.App) {
 	serverGroup.Use(
 		middleware.CheckAPIKeyMiddleware,
 		jwtware.New(jwtware.Config{
+			Filter: func(c *fiber.Ctx) bool {
+				return c.Path() != "/api/server/user"
+			},
 			SigningKey: jwtware.SigningKey{Key: configs.Env.Auth.JWTSecret},
 		}),
 		middleware.LastActivitMiddleware,
 	)
 	serverGroup.Get("/user", func(c *fiber.Ctx) error {
 		return server.CheckUserCtrl(c)
+	})
+	serverGroup.Post("/permission/injectuser", func(c *fiber.Ctx) error {
+		return server.InjectPermissionToUserCtrl(c)
 	})
 }

@@ -11,6 +11,9 @@ import (
 )
 
 var LastActivitMiddleware = func(c *fiber.Ctx) error {
+	if c.Locals("user") == nil {
+		return c.Next()
+	}
 	token := c.Locals("user").(*jwt.Token)
 	claims := token.Claims.(jwt.MapClaims)
 	userID, err := uuid.Parse(claims["uuid"].(string))
