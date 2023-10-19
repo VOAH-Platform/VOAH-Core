@@ -106,12 +106,12 @@ export function IndexPage() {
                 layout>
                 <FormInput
                   id="login-id"
-                  label="아이디"
+                  label="이메일"
                   name="login-id"
                   type="text"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="아이디를 입력해주세요"
+                  placeholder="이메일을 입력해주세요"
                 />
                 <FormInput
                   id="login-pw"

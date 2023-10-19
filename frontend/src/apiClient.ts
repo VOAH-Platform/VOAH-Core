@@ -1,6 +1,6 @@
 import axios, { AxiosError } from 'axios';
 
-export const API_HOST = 'https://dev-voah.implude.kr';
+export const API_HOST = window.location.href;
 
 export const apiClient = axios.create({
   baseURL: API_HOST,

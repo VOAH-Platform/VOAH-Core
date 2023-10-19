@@ -66,7 +66,7 @@ export const useIndexLogic = () => {
         if (error.response?.status === 401) {
           return {
             success: false,
-            error: '아이디 또는 비밀번호가 일치하지 않습니다.',
+            error: '이메일 또는 비밀번호가 일치하지 않습니다.',
           };
         }
       }
