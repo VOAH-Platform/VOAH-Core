@@ -13,6 +13,9 @@ func addCompany(router *fiber.App) {
 
 	companyGroup.Use(
 		jwtware.New(jwtware.Config{
+			Filter: func(c *fiber.Ctx) bool {
+				return c.Path() == "/api/company/image" && c.Method() == "GET"
+			},
 			SigningKey: jwtware.SigningKey{Key: configs.Env.Auth.JWTSecret},
 		}),
 		middleware.LastActivitMiddleware,
@@ -21,7 +24,7 @@ func addCompany(router *fiber.App) {
 	companyGroup.Get("/", func(c *fiber.Ctx) error {
 		return company.GetCompanyInfo(c)
 	})
-	companyGroup.Get("/image", func(c *fiber.Ctx) error {
-		return company.GetCompanyImage(c)
-	})
+
+	companySetting := configs.Setting.Company
+	companyGroup.Static("/image", configs.Env.Server.DataDir+"/"+companySetting.LogoImageRelativePath)
 }
