@@ -1,10 +1,21 @@
 import { useQuery } from '@tanstack/react-query';
 import { useAtom } from 'jotai';
+import { useEffect } from 'react';
 
 import { apiClient } from '@/apiClient';
 import { userAtom } from '@/atom';
 
-import { HeaderWrapper, LeftWrapper, RightWrapper } from './style';
+import { MD5 } from './md5';
+import {
+  CompanyName,
+  HeaderWrapper,
+  ProfileWrapper,
+  LeftWrapper,
+  RightWrapper,
+  StatusMargin,
+  Status,
+  ImageWrapper,
+} from './style';
 
 export function AppHeader() {
   const [user] = useAtom(userAtom);
@@ -30,15 +41,35 @@ export function AppHeader() {
     },
   });
 
+  useEffect(() => {
+    console.log(user);
+  }, [user]);
+
   return (
     <HeaderWrapper>
-      <LeftWrapper>{data?.company.name}</LeftWrapper>
+      <LeftWrapper>
+        <CompanyName>{data?.company.name}</CompanyName>
+      </LeftWrapper>
       <RightWrapper
         onContextMenu={(e) => {
           e.preventDefault();
           console.log(e.clientX, e.clientY);
         }}>
-        Profile
+        {/* <img
+          alt="User's Profile"
+          src={`${API_HOST}/api/profile/image?user-id=${user.id}`}></img> */}
+        <ProfileWrapper>
+          <ImageWrapper>
+            <img
+              alt="user's profile"
+              src={`https://gravatar.com/avatar/${MD5(
+                user.email.trim().toLowerCase(),
+              )}?s=36&d=retro`}
+            />
+          </ImageWrapper>
+          <StatusMargin />
+          <Status />
+        </ProfileWrapper>
       </RightWrapper>
     </HeaderWrapper>
   );

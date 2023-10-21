@@ -1,6 +1,8 @@
 import axios, { AxiosError } from 'axios';
 
-export const API_HOST = window.location.href;
+export const API_HOST = !import.meta.env.DEV
+  ? window.location.href
+  : 'https://test-voah.zirr.al';
 
 export const apiClient = axios.create({
   baseURL: API_HOST,
@@ -12,6 +14,7 @@ apiClient.interceptors.response.use(
     if (!response) return Promise.reject(err);
     if (response.status === 401 && response.data === 'Invalid or expired JWT') {
       const userData = JSON.parse(localStorage.getItem('user')!) as {
+        email: string;
         id: string;
         isLogin: boolean;
         accessToken: string;
@@ -31,12 +34,14 @@ apiClient.interceptors.response.use(
           localStorage.setItem(
             'user',
             JSON.stringify({
+              email: userData.email,
               id: userData.id,
               isLogin: true,
               accessToken: res.data['access-token'],
               refreshToken: userData.refreshToken,
             }),
           );
+          window.location.reload();
           return;
         })
         .catch((err) => {

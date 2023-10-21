@@ -9,6 +9,7 @@ import { VerifyPage } from '@/pages/auth/verify';
 import { IndexPage } from '@/pages/index';
 import { darkTheme, globalStyles } from '@/stitches.config';
 
+import { CustomContextProvider } from './lib/context';
 import { AppLayout } from './pages/app';
 
 function App() {
@@ -55,14 +56,18 @@ function App() {
 
   globalStyles();
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route index element={<IndexPage />} />
-        <Route path="/auth/verify" element={<VerifyPage />} />
-        <Route path="/app" element={<AppLayout />} />
-        <Route path="/*" element={<NotFoundPage />} />
-      </Routes>
-    </BrowserRouter>
+    <CustomContextProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route index element={<IndexPage />} />
+          <Route path="/auth/verify" element={<VerifyPage />} />
+          <Route path="/app" element={<AppLayout />}>
+            <Route path="/app/*" element={<NotFoundPage />} />
+          </Route>
+          <Route path="/*" element={<NotFoundPage />} />
+        </Routes>
+      </BrowserRouter>
+    </CustomContextProvider>
   );
 }
 

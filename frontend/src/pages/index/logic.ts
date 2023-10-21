@@ -16,6 +16,7 @@ export const useIndexLogic = () => {
       password: string,
     ): Promise<
       Result<{
+        email: string;
         userId: string;
         accessToken: string;
         refreshToken: string;
@@ -54,6 +55,7 @@ export const useIndexLogic = () => {
           return {
             success: true,
             value: {
+              email: id,
               userId: data.data['user-id'],
               accessToken: data.data['access-token'],
               refreshToken: data.data['refresh-token'],

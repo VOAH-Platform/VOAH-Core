@@ -5,8 +5,8 @@ import { useEffect, useState } from 'react';
 import { useAlert } from 'react-alert';
 import { useNavigate } from 'react-router-dom';
 
-import LogoBlack from '@/assets/logo-black.svg';
-import LogoLight from '@/assets/logo-light.svg';
+import LogoBlack from '@/assets/logo-black.svg?react';
+import LogoLight from '@/assets/logo-light.svg?react';
 import { themeAtom, userAtom } from '@/atom';
 import { FormButton } from '@/components/FormButton';
 import { FormInput } from '@/components/FormInput';
@@ -95,6 +95,7 @@ export function IndexPage() {
                     setFormDisabled(false);
                     if (!val.success) return setError(val.error);
                     setUser({
+                      email: val.value.email,
                       isLogin: true,
                       id: val.value.userId,
                       accessToken: val.value.accessToken,
