@@ -13,11 +13,12 @@ import (
 )
 
 func InitModules() {
+	var err error
+
 	log := logger.Logger
 	db := database.DB
 	allModules := []models.Module{}
-	if err := db.Find(&allModules).Error; err != nil && err != gorm.ErrRecordNotFound {
-
+	if err = db.Find(&allModules).Error; err != nil && err != gorm.ErrRecordNotFound {
 		log.Fatal(err)
 	}
 

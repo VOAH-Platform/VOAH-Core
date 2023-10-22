@@ -33,7 +33,7 @@ func GetProfileCtrl(c *fiber.Ctx) error {
 	db := database.DB
 	user := new(models.User)
 
-	if err := db.First(&user, uuid.MustParse(profileRequest.UserID)).Error; err != nil && !user.Visible {
+	if db.First(&user, uuid.MustParse(profileRequest.UserID)).Error != nil && !user.Visible {
 		return c.Status(400).JSON(fiber.Map{
 			"message": "User not found",
 		})
@@ -105,7 +105,7 @@ func UpdateProfileCtrl(c *fiber.Ctx) error {
 	// update user
 	user.Displayname = updateRequest.Displayname
 	user.Position = updateRequest.Position
-	if err := db.Save(&user).Error; err != nil {
+	if db.Save(&user).Error != nil {
 		return c.Status(500).JSON(fiber.Map{
 			"message": "Internal server error",
 		})

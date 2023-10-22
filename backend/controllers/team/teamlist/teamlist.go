@@ -11,7 +11,7 @@ func TeamListCtrl(c *fiber.Ctx) error {
 
 	// fetch public teams
 	var teamList []models.Team
-	if err := db.Where(&models.Team{Visible: true}).Find(&teamList).Error; err != nil {
+	if db.Where(&models.Team{Visible: true}).Find(&teamList).Error != nil {
 		return c.Status(500).JSON(fiber.Map{
 			"message": "Internal server error",
 		})

@@ -51,7 +51,7 @@ func RefreshCtrl(c *fiber.Ctx) error {
 	}
 	ctx = context.Background()
 	lastRefreshRedis := database.Redis.LastRefreshRedis
-	if err := lastRefreshRedis.Set(ctx, refreshRequest.UserID, time.Now().Unix(), 0).Err(); err != nil {
+	if lastRefreshRedis.Set(ctx, refreshRequest.UserID, time.Now().Unix(), 0).Err() != nil {
 		return c.Status(500).JSON(fiber.Map{
 			"message": "Internal server error",
 		})

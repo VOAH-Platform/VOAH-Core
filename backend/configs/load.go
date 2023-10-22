@@ -83,7 +83,7 @@ func LoadSetting() {
 	if err != nil {
 		panic(err)
 	}
-	if err = json.Unmarshal(jsonFile, &Setting); err != nil {
+	if json.Unmarshal(jsonFile, &Setting) != nil {
 		panic(err)
 	}
 }

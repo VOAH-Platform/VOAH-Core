@@ -72,9 +72,10 @@ func SubmitPassResetCtrl(c *fiber.Ctx) error {
 	passResetRedis.Del(ctx, passResetRequest.Code)
 
 	// update password
+	var err error
 	db := database.DB
 	user := new(models.User)
-	if err := db.Where(&models.User{Email: passResetRequest.Email}).First(&user).Error; err != nil && err != gorm.ErrRecordNotFound {
+	if err = db.Where(&models.User{Email: passResetRequest.Email}).First(&user).Error; err != nil && err != gorm.ErrRecordNotFound {
 		return c.Status(500).JSON(fiber.Map{
 			"message": "Internal server error",
 		})
@@ -87,7 +88,7 @@ func SubmitPassResetCtrl(c *fiber.Ctx) error {
 		})
 	}
 	user.PWHash = string(pwHash)
-	if err := db.Save(&user).Error; err != nil {
+	if db.Save(&user).Error != nil {
 		return c.Status(500).JSON(fiber.Map{
 			"message": "Internal server error",
 		})

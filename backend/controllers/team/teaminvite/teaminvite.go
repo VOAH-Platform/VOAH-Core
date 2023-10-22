@@ -86,7 +86,7 @@ func TeamInviteSendCtrl(c *fiber.Ctx) error {
 	//check team is private
 	db := database.DB
 	team := new(models.Team)
-	if err := db.First(&team, uuid.MustParse(teamInviteRequest.TeamID)).Error; err != nil {
+	if db.First(&team, uuid.MustParse(teamInviteRequest.TeamID)).Error != nil {
 		return c.Status(500).JSON(fiber.Map{
 			"message": "Internal server error",
 		})
@@ -105,7 +105,7 @@ func TeamInviteSendCtrl(c *fiber.Ctx) error {
 		TargetID:      uuid.MustParse(teamInviteRequest.TeamID),
 		ExpireAt:      time.Now().Add(time.Minute * time.Duration(teamInviteRequest.ExpireMin)),
 	}
-	if err := db.Create(&newInvite).Error; err != nil {
+	if db.Create(&newInvite).Error != nil {
 		return c.Status(500).JSON(fiber.Map{
 			"message": "Internal server error",
 		})

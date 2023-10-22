@@ -72,18 +72,19 @@ func (mail *Mail) cSubject() {
 	mail.Subject = mime.QEncoding.Encode("utf-8", mail.Subject)
 }
 func (mail *Mail) Send(c *smtp.Client) error {
+	var err error
 	smtpConf := configs.Env.SMTP
 	log := logger.Logger
-	if err := c.Auth(smtp.PlainAuth("", smtpConf.Username, smtpConf.Password, smtpConf.Host)); err != nil {
+	if err = c.Auth(smtp.PlainAuth("", smtpConf.Username, smtpConf.Password, smtpConf.Host)); err != nil {
 		log.Error(err.Error())
 		return err
 	}
-	if err := c.Mail(mail.From); err != nil {
+	if err = c.Mail(mail.From); err != nil {
 		log.Error(err.Error())
 		return err
 	}
 	for _, k := range mail.Tos {
-		if err := c.Rcpt(k); err != nil {
+		if err = c.Rcpt(k); err != nil {
 			log.Error(err.Error())
 			return err
 		}
@@ -112,7 +113,7 @@ func (mail *Mail) ConnectAndSend() error {
 	if err != nil {
 		return err
 	}
-	if err := mail.Send(smtpConn); err != nil {
+	if err = mail.Send(smtpConn); err != nil {
 		return err
 	}
 	smtpConn.Quit()

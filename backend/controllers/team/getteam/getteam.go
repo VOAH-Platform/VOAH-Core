@@ -25,7 +25,7 @@ func GetTeamCtrl(c *fiber.Ctx) error {
 	// get team
 	db := database.DB
 	foundTeam := new(models.Team)
-	if err := db.First(&foundTeam, getTeamRequest.TeamID).Error; err != nil {
+	if db.First(&foundTeam, getTeamRequest.TeamID).Error != nil {
 		return c.Status(400).JSON(fiber.Map{
 			"message": "Team not found",
 		})
