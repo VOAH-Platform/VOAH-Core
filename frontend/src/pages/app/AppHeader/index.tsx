@@ -5,7 +5,7 @@ import { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { API_HOST, apiClient } from '@/apiClient';
-import { userAtom } from '@/atom';
+import { headerAtom, userAtom } from '@/atom';
 import { useCustomContext } from '@/lib/context';
 
 import { MD5 } from './md5';
@@ -15,15 +15,16 @@ import {
   ProfileWrapper,
   LeftWrapper,
   RightWrapper,
-  StatusMargin,
-  Status,
   ImageWrapper,
   CompanyWrapper,
   CompanyImage,
+  TitleDivider,
+  TitleWrapper,
 } from './style';
 
 export function AppHeader() {
   const [user] = useAtom(userAtom);
+  const [headerData] = useAtom(headerAtom);
 
   const { showContext, hideContext } = useCustomContext();
 
@@ -66,7 +67,7 @@ export function AppHeader() {
             name: '설정',
             onClick: () => {
               hideContext();
-              alert('not ready');
+              navigate('/app/settings');
             },
           },
           {
@@ -89,6 +90,15 @@ export function AppHeader() {
         <CompanyWrapper>
           <CompanyImage src={`${API_HOST}/api/company/image`} />
           <CompanyName>{data?.company.name}</CompanyName>
+          {!headerData.isHidden && (
+            <>
+              <TitleDivider />
+              <TitleWrapper>
+                {headerData.icon}
+                <span>{headerData.name}</span>
+              </TitleWrapper>
+            </>
+          )}
         </CompanyWrapper>
       </LeftWrapper>
       <RightWrapper>
@@ -104,8 +114,8 @@ export function AppHeader() {
               )}?s=36&d=retro`}
             />
           </ImageWrapper>
-          <StatusMargin />
-          <Status />
+          {/* <StatusMargin />
+          <Status /> */}
         </ProfileWrapper>
       </RightWrapper>
     </HeaderWrapper>

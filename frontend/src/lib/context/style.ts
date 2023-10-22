@@ -8,7 +8,7 @@ export const ContextWrapper = styled('div', {
   position: 'absolute',
   justifyContent: 'center',
   alignItems: 'flex-start',
-  boxShadow: '0px 0px 8px 0px rgba(0, 0, 0, 0.15)',
+  boxShadow: '$grade1',
   borderRadius: '0.75rem',
   whiteSpace: 'nowrap',
   background: '$gray0',

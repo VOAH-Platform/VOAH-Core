@@ -7,7 +7,7 @@ export const HeaderWrapper = styled('header', {
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
-  boxShadow: '0px 0px 4px 0px rgba(0, 0, 0, 0.15)',
+  boxShadow: '$grade1',
 });
 
 export const LeftWrapper = styled('div', {
@@ -40,6 +40,30 @@ export const CompanyName = styled('span', {
   letterSpacing: '-0.2px',
 });
 
+export const TitleDivider = styled('div', {
+  width: '1px',
+  height: '24px',
+  background: '$gray300',
+  margin: '0 0.5rem',
+});
+
+export const TitleWrapper = styled('div', {
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  gap: '0.5rem',
+});
+
+export const Title = styled('span', {
+  overflow: 'hidden',
+  color: '$gray900',
+  textOverflow: 'ellipsis',
+  fontSize: '1.25rem',
+  fontStyle: 'normal',
+  fontWeight: 600,
+  letterSpacing: '-0.2px',
+});
+
 export const RightWrapper = styled('div', {
   display: 'flex',
   alignItems: 'center',
@@ -51,6 +75,7 @@ export const ProfileWrapper = styled('div', {
   overflow: 'hidden',
   background: '$gray0',
   position: 'relative',
+  cursor: 'pointer',
 });
 
 export const ImageWrapper = styled('div', {

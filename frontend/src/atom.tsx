@@ -1,4 +1,6 @@
+import { atom } from 'jotai';
 import { atomWithStorage } from 'jotai/utils';
+import { HomeIcon } from 'lucide-react';
 
 import { THEME_TOKEN } from './constant';
 
@@ -63,3 +65,13 @@ export const userAtom = atomWithStorage<UserData>(
     },
   },
 );
+
+export const localDataAtom = atomWithStorage('localData', {
+  lastPath: '/app',
+});
+
+export const headerAtom = atom({
+  isHidden: true,
+  icon: <HomeIcon size={20} />,
+  name: '메인',
+});

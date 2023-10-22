@@ -25,6 +25,7 @@ export const AddressBar = styled('input', {
   outline: 'none',
   fontSize: '1rem',
   color: '$gray700',
+  background: '$gray0',
 
   '&:focus': {
     border: '2px solid $gray600',
@@ -32,6 +33,7 @@ export const AddressBar = styled('input', {
 });
 
 export const AddressBarBtn = styled('button', {
+  width: '2.5rem',
   height: '2.5rem',
   border: 'none',
   borderRadius: '0.75rem',
@@ -42,8 +44,15 @@ export const AddressBarBtn = styled('button', {
   color: '$gray0',
   transition: 'background 0.2s ease-in-out',
   cursor: 'pointer',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
 
   '&:hover': {
     background: '$gray500',
+  },
+
+  '& > *': {
+    stroke: '$gray0',
   },
 });

@@ -31,8 +31,7 @@ export function CustomContextProvider({
       e.preventDefault();
     });
 
-    document.addEventListener('voah__context_show', (e) => {
-      console.log(e);
+    document.addEventListener('voah__context_show', () => {
       setIsHidden(false);
 
       // dispatch hidden event on click outside of context menu
@@ -50,8 +49,7 @@ export function CustomContextProvider({
       );
     });
 
-    document.addEventListener('voah__context_hidden', (e) => {
-      console.log(e);
+    document.addEventListener('voah__context_hidden', () => {
       setIsHidden(true);
     });
   }, []);
@@ -72,11 +70,6 @@ export function CustomContextProvider({
         const windowHeight = window.innerHeight;
 
         const { x, y } = Context.position;
-
-        console.log(`x: ${x}, y: ${y}`);
-        console.log(
-          `contextWidth: ${contextWidth}, contextHeight: ${contextHeight}`,
-        );
 
         const realX = x + contextWidth > windowWidth ? x - contextWidth : x;
         const realY = y + contextHeight > windowHeight ? y - contextHeight : y;

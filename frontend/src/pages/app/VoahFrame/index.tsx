@@ -1,4 +1,5 @@
 import { useAtom } from 'jotai';
+import { SendIcon } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 
 import { userAtom } from '@/atom';
@@ -63,7 +64,7 @@ export function VoahFrame() {
           onClick={() => {
             setUrl(inputVal);
           }}>
-          이동하기
+          <SendIcon size={20} />
         </AddressBarBtn>
       </AddressBarWrapper>
       <iframe
