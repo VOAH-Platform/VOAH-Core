@@ -18,7 +18,7 @@ func GetUserFromMiddleware(c *fiber.Ctx) (*models.User, error) {
 	}
 	db := database.DB
 	foundUser := &models.User{}
-	if err := db.Where(&models.User{ID: userID}).First(&foundUser).Error; err != nil {
+	if db.Where(&models.User{ID: userID}).First(&foundUser).Error != nil {
 		return nil, err
 	}
 	return foundUser, nil

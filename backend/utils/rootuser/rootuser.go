@@ -13,8 +13,8 @@ func InitRootUser() {
 
 	// find root user is exists
 	rootUser := new(models.User)
-	if err := db.Where(&models.User{Email: configs.Env.RootUser.Email}).First(&rootUser).Error; err != nil {
-
+	if db.Where(&models.User{Email: configs.Env.RootUser.Email}).First(&rootUser).Error != nil {
+		var err error
 		log := logger.Logger
 
 		// create root team
@@ -25,7 +25,7 @@ func InitRootUser() {
 			Displayname: "root",
 			Description: "root team",
 		}
-		if err := db.Create(newRootTeam).Error; err != nil {
+		if err = db.Create(newRootTeam).Error; err != nil {
 			log.Error("Failed to create root team")
 			log.Fatal(err)
 		}
@@ -38,7 +38,7 @@ func InitRootUser() {
 			Username: "root",
 			TeamID:   rootTeamID,
 		}
-		if err := db.Create(newRootUser).Error; err != nil {
+		if err = db.Create(newRootUser).Error; err != nil {
 			log.Error("Failed to create root user")
 			log.Fatal(err)
 		}
@@ -51,7 +51,7 @@ func InitRootUser() {
 			Description: "root role",
 			Users:       []models.User{*newRootUser},
 		}
-		if err := db.Create(newRootRole).Error; err != nil {
+		if err = db.Create(newRootRole).Error; err != nil {
 			log.Error("Failed to create root role")
 			log.Fatal(err)
 		}
@@ -63,7 +63,7 @@ func InitRootUser() {
 			Scope:  configs.AdminPermissionScope,
 			RoleID: roleID,
 		}
-		if err := db.Create(newRootPermission).Error; err != nil {
+		if err = db.Create(newRootPermission).Error; err != nil {
 			log.Error("Failed to create root permission")
 			log.Fatal(err)
 		}

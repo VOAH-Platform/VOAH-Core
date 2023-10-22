@@ -29,7 +29,7 @@ func GetImageCtrl(c *fiber.Ctx) error {
 	db := database.DB
 	user := new(models.User)
 
-	if err := db.First(&user, userUUID).Error; err != nil && !user.Visible {
+	if db.First(&user, userUUID).Error != nil && !user.Visible {
 		return c.SendFile("./public/default-profile.webp")
 	}
 	// return profile image
@@ -43,6 +43,7 @@ type UpdateImageRequest struct {
 }
 
 func UpdateImageCtrl(c *fiber.Ctx) error {
+	var err error
 	userID, err := middleware.GetUserIDFromMiddleware(c)
 	if err != nil {
 		return c.Status(500).JSON(fiber.Map{
@@ -60,9 +61,9 @@ func UpdateImageCtrl(c *fiber.Ctx) error {
 	serverConf := configs.Env.Server
 	imagePath := fmt.Sprintf(serverConf.DataDir+"/user-profiles/%s.png", userID.String())
 	// check if file exists
-	if _, err := os.Stat(imagePath); err == nil {
+	if _, err = os.Stat(imagePath); err == nil {
 		// delete file
-		if err := os.Remove(imagePath); err != nil {
+		if os.Remove(imagePath) != nil {
 			return c.Status(500).JSON(fiber.Map{
 				"message": "Internal server error",
 			})
@@ -76,8 +77,7 @@ func UpdateImageCtrl(c *fiber.Ctx) error {
 			})
 		}
 		// save profile image to ./data/profiles/{uuid}.png
-		err = os.WriteFile(imagePath, decodedProfileImage, 0700)
-		if err != nil {
+		if os.WriteFile(imagePath, decodedProfileImage, 0700) != nil {
 			return c.Status(500).JSON(fiber.Map{
 				"message": "Internal server error",
 			})

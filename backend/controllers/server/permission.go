@@ -27,14 +27,14 @@ func InjectPermissionToUserCtrl(c *fiber.Ctx) error {
 	// find user
 	db := database.DB
 	user := &models.User{}
-	if err := db.First(&user, uuid.MustParse(injectRequest.UserID)).Error; err != nil {
+	if db.First(&user, uuid.MustParse(injectRequest.UserID)).Error != nil {
 		return c.Status(404).JSON(fiber.Map{
 			"message": "User not found",
 		})
 	}
 	// find user personal role
 	userRoles := []models.Role{}
-	if err := db.Model(&user).Association("Roles").Find(&userRoles); err != nil {
+	if db.Model(&user).Association("Roles").Find(&userRoles) != nil {
 		return c.Status(500).JSON(fiber.Map{
 			"message": "Internal server error",
 		})
@@ -60,7 +60,7 @@ func InjectPermissionToUserCtrl(c *fiber.Ctx) error {
 		Scope:  configs.PermissionScope(injectRequest.Scope),
 		RoleID: userRole.ID,
 	}
-	if err := db.Create(permission).Error; err != nil {
+	if db.Create(permission).Error != nil {
 		return c.Status(500).JSON(fiber.Map{
 			"message": "Internal server error",
 		})

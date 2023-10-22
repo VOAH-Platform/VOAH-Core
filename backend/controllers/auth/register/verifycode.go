@@ -3,7 +3,6 @@ package register
 import (
 	"context"
 	"encoding/base64"
-	"errors"
 	"fmt"
 	"os"
 	"time"
@@ -44,15 +43,15 @@ func CheckCodeCtrl(c *fiber.Ctx) error {
 			"message": "Invalid code",
 		})
 	}
-
+	var err error
 	publicTeams := []models.Team{}
-	if err := database.DB.Where(&models.Team{Public: true}).Find(&publicTeams).Error; err != nil && !errors.Is(err, gorm.ErrRecordNotFound) {
+	if err = database.DB.Where(&models.Team{Public: true}).Find(&publicTeams).Error; err != nil && err != gorm.ErrRecordNotFound {
 		return c.Status(500).JSON(fiber.Map{
 			"message": "Internal server error",
 		})
 	}
 	myTeamInvites := []models.Invite{}
-	if err := database.DB.Where(&models.Invite{RecieverEmail: checkCodeRequest.Email, TargetType: configs.TeamObject}).Find(&myTeamInvites).Error; err != nil && !errors.Is(err, gorm.ErrRecordNotFound) {
+	if err = database.DB.Where(&models.Invite{RecieverEmail: checkCodeRequest.Email, TargetType: configs.TeamObject}).Find(&myTeamInvites).Error; err != nil && err != gorm.ErrRecordNotFound {
 		return c.Status(500).JSON(fiber.Map{
 			"message": "Internal server error",
 		})
@@ -60,7 +59,7 @@ func CheckCodeCtrl(c *fiber.Ctx) error {
 	invitedTeams := []models.Team{}
 	for _, invite := range myTeamInvites {
 		tempTeam := new(models.Team)
-		if err := database.DB.First(tempTeam, invite.TargetID).Error; err != nil {
+		if database.DB.First(tempTeam, invite.TargetID).Error != nil {
 			return c.Status(500).JSON(fiber.Map{
 				"message": "Internal server error",
 			})
@@ -110,7 +109,7 @@ func SubmitCodeCtrl(c *fiber.Ctx) error {
 	// check if username already exists
 	db := database.DB
 	checkUser := new(models.User)
-	if err := db.Where(&models.User{Username: submitCodeRequest.Username}).First(&checkUser).Error; err == nil {
+	if db.Where(&models.User{Username: submitCodeRequest.Username}).First(&checkUser).Error == nil {
 		return c.Status(409).JSON(fiber.Map{
 			"message": "Username already exists",
 		})
@@ -118,7 +117,7 @@ func SubmitCodeCtrl(c *fiber.Ctx) error {
 
 	// check if team is public
 	foundTeam := new(models.Team)
-	if err := db.First(&foundTeam, uuid.MustParse(submitCodeRequest.TeamID)).Error; err != nil {
+	if db.First(&foundTeam, uuid.MustParse(submitCodeRequest.TeamID)).Error != nil {
 		return c.Status(400).JSON(fiber.Map{
 			"message": "Team not found",
 		})
@@ -126,7 +125,7 @@ func SubmitCodeCtrl(c *fiber.Ctx) error {
 	if !foundTeam.Public {
 		// check if user has invite
 		checkInvite := new(models.Invite)
-		if err := db.Where(&models.Invite{RecieverEmail: submitCodeRequest.Email, TargetID: uuid.MustParse(submitCodeRequest.TeamID), TargetType: configs.TeamObject}).First(&checkInvite).Error; err != nil {
+		if db.Where(&models.Invite{RecieverEmail: submitCodeRequest.Email, TargetID: uuid.MustParse(submitCodeRequest.TeamID), TargetType: configs.TeamObject}).First(&checkInvite).Error != nil {
 			return c.Status(400).JSON(fiber.Map{
 				"message": "Only invited user can join this team",
 			})
@@ -200,7 +199,7 @@ func SubmitCodeCtrl(c *fiber.Ctx) error {
 		Users: []models.User{*newUser},
 	}
 
-	if err := db.Create(&userRole).Error; err != nil {
+	if db.Create(&userRole).Error != nil {
 		return c.Status(500).JSON(fiber.Map{
 			"message": "Internal server error",
 		})
@@ -214,7 +213,7 @@ func SubmitCodeCtrl(c *fiber.Ctx) error {
 		RoleID: userRole.ID,
 	}
 
-	if err := db.Create(&userPermission).Error; err != nil {
+	if db.Create(&userPermission).Error != nil {
 		return c.Status(500).JSON(fiber.Map{
 			"message": "Internal server error",
 		})
