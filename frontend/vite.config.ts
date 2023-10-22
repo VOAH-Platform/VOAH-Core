@@ -6,11 +6,5 @@ import tsconfigPaths from 'vite-tsconfig-paths';
 // https://vitejs.dev/config/
 export default defineConfig({
   envDir: '.',
-  plugins: [
-    react(),
-    tsconfigPaths(),
-    svgr({
-      exportAsDefault: true,
-    }),
-  ],
+  plugins: [react(), tsconfigPaths(), svgr()],
 });

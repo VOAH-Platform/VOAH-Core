@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 
 import { userAtom } from '@/atom';
 
+import { useVoahMessageFunc } from './logic';
 import {
   AddressBar,
   AddressBarBtn,
@@ -22,6 +23,8 @@ export function VoahFrame() {
 
   const [inputVal, setInputVal] = useState('');
 
+  const voahMessages = useVoahMessageFunc(port1);
+
   useEffect(() => {
     frameRef.current?.contentWindow?.postMessage('VOAH__FRAME_INIT', '*', [
       port2,
@@ -36,13 +39,10 @@ export function VoahFrame() {
       console.log(e.data);
       switch (e.data.type) {
         case 'VOAH__FRAME_INIT_DONE':
-          console.log(`${url} is loaded!`);
+          voahMessages.frame.initDone(url);
           break;
         case 'VOAH__USER_GET_TOKEN':
-          port1.postMessage({
-            type: 'VOAH__USER_GET_TOKEN_DONE',
-            data: user.accessToken,
-          });
+          voahMessages.user.getToken(user.accessToken);
           break;
       }
     };
