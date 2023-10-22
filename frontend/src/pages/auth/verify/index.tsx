@@ -6,7 +6,7 @@ import { useAlert } from 'react-alert';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 
 import { apiClient } from '@/apiClient';
-import LogoWithText from '@/assets/logo-with-text.svg';
+import LogoWithText from '@/assets/logo-with-text.svg?react';
 import { themeAtom } from '@/atom';
 import { FormButton } from '@/components/FormButton';
 import { FormCheckbox } from '@/components/FormCheckbox';

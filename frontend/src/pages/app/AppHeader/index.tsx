@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useAtom } from 'jotai';
 import { useEffect } from 'react';
 
-import { apiClient } from '@/apiClient';
+import { API_HOST, apiClient } from '@/apiClient';
 import { userAtom } from '@/atom';
 
 import { MD5 } from './md5';
@@ -15,6 +15,8 @@ import {
   StatusMargin,
   Status,
   ImageWrapper,
+  CompanyWrapper,
+  CompanyImage,
 } from './style';
 
 export function AppHeader() {
@@ -48,7 +50,10 @@ export function AppHeader() {
   return (
     <HeaderWrapper>
       <LeftWrapper>
-        <CompanyName>{data?.company.name}</CompanyName>
+        <CompanyWrapper>
+          <CompanyImage src={`${API_HOST}/api/company/image`} />
+          <CompanyName>{data?.company.name}</CompanyName>
+        </CompanyWrapper>
       </LeftWrapper>
       <RightWrapper
         onContextMenu={(e) => {

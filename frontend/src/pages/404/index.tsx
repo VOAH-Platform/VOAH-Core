@@ -1,4 +1,4 @@
-import NotFoundLogo from '@/assets/NotFound.svg';
+import NotFoundLogo from '@/assets/NotFound.svg?react';
 
 import { NotFoundButton, NotFoundSubtitle, NotFoundWrapper } from './style';
 

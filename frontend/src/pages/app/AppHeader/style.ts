@@ -1,17 +1,32 @@
 import { styled } from '@/stitches.config';
 
 export const HeaderWrapper = styled('header', {
-  padding: '12px 52px',
+  padding: '0 1.5rem',
   width: '100%',
   height: '60px',
   display: 'flex',
   justifyContent: 'space-between',
+  alignItems: 'center',
   boxShadow: '0px 0px 4px 0px rgba(0, 0, 0, 0.15)',
 });
 
 export const LeftWrapper = styled('div', {
   display: 'flex',
   alignItems: 'center',
+});
+
+export const CompanyWrapper = styled('div', {
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  gap: '1rem',
+});
+
+export const CompanyImage = styled('img', {
+  width: '36px',
+  height: '36px',
+  borderRadius: '0.75rem',
+  background: '$gray100',
 });
 
 export const CompanyName = styled('span', {
