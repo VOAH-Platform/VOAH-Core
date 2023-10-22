@@ -1,7 +1,7 @@
 import axios, { AxiosError } from 'axios';
 
 export const API_HOST = !import.meta.env.DEV
-  ? window.location.href
+  ? window.location.origin
   : 'https://test-voah.zirr.al';
 
 export const apiClient = axios.create({
