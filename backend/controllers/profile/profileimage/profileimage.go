@@ -30,9 +30,7 @@ func GetImageCtrl(c *fiber.Ctx) error {
 	user := new(models.User)
 
 	if err := db.First(&user, userUUID).Error; err != nil && !user.Visible {
-		return c.Status(400).JSON(fiber.Map{
-			"message": "User not found",
-		})
+		return c.SendFile("./public/default-profile.webp")
 	}
 	// return profile image
 	serverConf := configs.Env.Server
