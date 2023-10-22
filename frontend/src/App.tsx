@@ -11,6 +11,7 @@ import { darkTheme, globalStyles } from '@/stitches.config';
 
 import { CustomContextProvider } from './lib/context';
 import { AppLayout } from './pages/app';
+import { LogoutPage } from './pages/auth/logout';
 
 function App() {
   const [theme] = useAtom(themeAtom);
@@ -61,8 +62,9 @@ function App() {
         <Routes>
           <Route index element={<IndexPage />} />
           <Route path="/auth/verify" element={<VerifyPage />} />
+          <Route path="/auth/logout" element={<LogoutPage />} />
           <Route path="/app" element={<AppLayout />}>
-            <Route path="/app/*" element={<NotFoundPage />} />
+            <Route path="/app/*" element={<AppLayout />} />
           </Route>
           <Route path="/*" element={<NotFoundPage />} />
         </Routes>

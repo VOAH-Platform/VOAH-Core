@@ -1,5 +1,3 @@
-// import { atom } from 'jotai';
-import { atom } from 'jotai';
 import { atomWithStorage } from 'jotai/utils';
 
 import { THEME_TOKEN } from './constant';
@@ -65,25 +63,3 @@ export const userAtom = atomWithStorage<UserData>(
     },
   },
 );
-
-export const contextAtom = atom<{
-  categories: Array<{
-    nameHidden: boolean;
-    id: string;
-    name: string;
-    buttons: Array<{
-      icon: JSX.Element;
-      name: string;
-      onClick: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
-    }>;
-  }>;
-}>({
-  categories: [
-    {
-      nameHidden: false,
-      id: 'test',
-      name: '테스트 카테고리',
-      buttons: [],
-    },
-  ],
-});

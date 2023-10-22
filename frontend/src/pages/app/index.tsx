@@ -1,11 +1,13 @@
 import { useAtom } from 'jotai';
 import { useEffect } from 'react';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { userAtom } from '@/atom';
 
 import { AppHeader } from './AppHeader';
+import { AppWrapper } from './style';
 import { VoahFrame } from './VoahFrame';
+import { VoahSidebar } from './VoahSidebar';
 
 export function AppLayout() {
   const [user] = useAtom(userAtom);
@@ -21,8 +23,10 @@ export function AppLayout() {
   return (
     <>
       <AppHeader />
-      <Outlet />
-      <VoahFrame />
+      <AppWrapper>
+        <VoahSidebar />
+        <VoahFrame />
+      </AppWrapper>
     </>
   );
 }

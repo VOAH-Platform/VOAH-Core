@@ -1,13 +1,13 @@
 import { styled } from '@/stitches.config';
 
 export const VoahFrameWrapper = styled('div', {
-  padding: '1rem',
+  padding: '1.25rem 2rem 1.25rem 1rem',
   display: 'flex',
   flexDirection: 'column',
   height: '100%',
   width: '100%',
   flex: '1',
-  gap: '1rem',
+  gap: '0.75rem',
 });
 
 export const AddressBarWrapper = styled('div', {
@@ -27,7 +27,7 @@ export const AddressBar = styled('input', {
   color: '$gray700',
 
   '&:focus': {
-    border: '1px solid $gray600',
+    border: '2px solid $gray600',
   },
 });
 

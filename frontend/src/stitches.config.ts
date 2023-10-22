@@ -195,6 +195,7 @@ export const globalStyles = globalCss({
     width: '100%',
     height: '100%',
     fontSize: '16px',
+    overflow: 'hidden',
   },
   'body, #root': {
     display: 'flex',

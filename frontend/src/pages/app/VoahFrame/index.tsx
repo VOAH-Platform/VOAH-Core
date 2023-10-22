@@ -2,6 +2,7 @@ import { useAtom } from 'jotai';
 import { useEffect, useRef, useState } from 'react';
 
 import { userAtom } from '@/atom';
+import { css } from '@/stitches.config';
 
 import { useVoahMessageFunc } from './logic';
 import {
@@ -66,11 +67,12 @@ export function VoahFrame() {
         </AddressBarBtn>
       </AddressBarWrapper>
       <iframe
-        style={{
+        className={css({
           width: '100%',
           height: '100%',
-          border: 'none',
-        }}
+          border: '2px solid $gray300',
+          borderRadius: '0.75rem',
+        })()}
         ref={frameRef}
         title="module"
         src={url}></iframe>

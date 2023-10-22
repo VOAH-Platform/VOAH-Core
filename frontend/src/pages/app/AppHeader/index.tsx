@@ -1,9 +1,12 @@
 import { useQuery } from '@tanstack/react-query';
 import { useAtom } from 'jotai';
-import { useEffect } from 'react';
+import { LogOutIcon, SettingsIcon } from 'lucide-react';
+import { useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { API_HOST, apiClient } from '@/apiClient';
 import { userAtom } from '@/atom';
+import { useCustomContext } from '@/lib/context';
 
 import { MD5 } from './md5';
 import {
@@ -22,11 +25,16 @@ import {
 export function AppHeader() {
   const [user] = useAtom(userAtom);
 
+  const { showContext, hideContext } = useCustomContext();
+
+  const navigate = useNavigate();
+
+  const profileRef = useRef<HTMLDivElement>(null);
+
   const { data } = useQuery({
     queryKey: ['user'],
     enabled: !!user.accessToken,
     queryFn: async () => {
-      console.log(`Bearer ${user.accessToken}`);
       const response = await apiClient.get<{
         success: boolean;
         company: {
@@ -43,9 +51,37 @@ export function AppHeader() {
     },
   });
 
-  useEffect(() => {
-    console.log(user);
-  }, [user]);
+  const handleProfileClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    const x = profileRef.current?.getBoundingClientRect().x ?? 0;
+    const y = profileRef.current?.getBoundingClientRect().y ?? 0;
+    showContext(x + 36, y + 44, [
+      {
+        nameHidden: false,
+        id: 'account',
+        name: '계정',
+        buttons: [
+          {
+            icon: <SettingsIcon size={20} />,
+            name: '설정',
+            onClick: () => {
+              hideContext();
+              alert('not ready');
+            },
+          },
+          {
+            icon: <LogOutIcon size={20} />,
+            name: '로그아웃',
+            onClick: () => {
+              hideContext();
+              navigate('/auth/logout');
+            },
+            isRed: true,
+          },
+        ],
+      },
+    ]);
+  };
 
   return (
     <HeaderWrapper>
@@ -55,15 +91,11 @@ export function AppHeader() {
           <CompanyName>{data?.company.name}</CompanyName>
         </CompanyWrapper>
       </LeftWrapper>
-      <RightWrapper
-        onContextMenu={(e) => {
-          e.preventDefault();
-          console.log(e.clientX, e.clientY);
-        }}>
+      <RightWrapper>
         {/* <img
           alt="User's Profile"
           src={`${API_HOST}/api/profile/image?user-id=${user.id}`}></img> */}
-        <ProfileWrapper>
+        <ProfileWrapper ref={profileRef} onClick={handleProfileClick}>
           <ImageWrapper>
             <img
               alt="user's profile"
