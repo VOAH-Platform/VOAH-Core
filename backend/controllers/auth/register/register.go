@@ -63,7 +63,7 @@ func RegisterCtrl(c *fiber.Ctx) error {
 	redis := database.Redis.RegisterVerifyDB
 
 	verifcationCode := uuid.New().String()
-	redis.Set(ctx, verifcationCode, registerRequest.Email, time.Minute*time.Duration(authSetting.EmailVerificattionExpire))
+	redis.Set(ctx, verifcationCode, registerRequest.Email, time.Duration(authSetting.EmailVerificattionExpire)*time.Second)
 
 	smtpConf := configs.Env.SMTP
 	serverConf := configs.Env.Server
