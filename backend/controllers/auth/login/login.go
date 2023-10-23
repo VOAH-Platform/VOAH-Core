@@ -7,6 +7,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/google/uuid"
+	"github.com/pquerna/otp/totp"
 	"golang.org/x/crypto/bcrypt"
 	"implude.kr/VOAH-Backend-Core/configs"
 	"implude.kr/VOAH-Backend-Core/database"
@@ -20,6 +21,7 @@ type LoginRequest struct {
 	DeviceID     string            `json:"device-id" validate:"required,uuid4"`
 	DeviceType   models.DeviceType `json:"device-type" validate:"required,min=1,max=6"`
 	DeviceDetail string            `json:"device-detail" validate:"required,min=1,max=30"`
+	TwoFACode    string            `json:"2fa-code"`
 }
 
 func LoginCtrl(c *fiber.Ctx) error {
@@ -37,6 +39,10 @@ func LoginCtrl(c *fiber.Ctx) error {
 	if bcrypt.CompareHashAndPassword([]byte(user.PWHash), []byte(loginRequest.Password)) != nil {
 		return c.Status(401).JSON(fiber.Map{
 			"message": "Invalid Email or Password",
+		})
+	} else if user.TwoFA && !totp.Validate(loginRequest.TwoFACode, user.TwoFAKey) {
+		return c.Status(498).JSON(fiber.Map{
+			"message": "Invalid 2FA Code",
 		})
 	}
 	// check sessionID is conflict
