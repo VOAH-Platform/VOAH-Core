@@ -15,6 +15,8 @@ type User struct {
 	Displayname string    `gorm:"not null;size:30" json:"displayname"`
 	Position    string    `gorm:"size:30" json:"position"`
 	Description string    `gorm:"size:240" json:"description"`
+	TwoFA       bool      `gorm:"not null,default:false" json:"two-fa"`
+	TwoFAKey    string    `gorm:"size:32" json:"-"`
 	Sessions    []Session `gorm:"foreignKey:UserID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE" json:"-"`
 	TeamID      uuid.UUID `gorm:"type:uuid" json:"team-id"`
 	Roles       []Role    `gorm:"many2many:user_roles;constraint:OnUpdate:CASCADE,OnDelete:CASCADE" json:"roles"`
