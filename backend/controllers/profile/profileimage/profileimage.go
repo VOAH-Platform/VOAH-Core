@@ -8,9 +8,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
 	"implude.kr/VOAH-Backend-Core/configs"
-	"implude.kr/VOAH-Backend-Core/database"
 	"implude.kr/VOAH-Backend-Core/middleware"
-	"implude.kr/VOAH-Backend-Core/models"
 	"implude.kr/VOAH-Backend-Core/utils/validator"
 )
 
@@ -26,16 +24,13 @@ func GetImageCtrl(c *fiber.Ctx) error {
 			"message": "Invalid request",
 		})
 	}
-	db := database.DB
-	user := new(models.User)
-
-	if db.First(&user, userUUID).Error != nil && !user.Visible {
+	serverConf := configs.Env.Server
+	profileName := fmt.Sprintf(serverConf.DataDir+"/user-profiles/%s.png", userUUID.String())
+	_, err = os.Stat(profileName)
+	if err != nil {
 		return c.SendFile("./public/default-profile.webp")
 	}
-	// return profile image
-	serverConf := configs.Env.Server
-	return c.SendFile(fmt.Sprintf(serverConf.DataDir+"/user-profiles/%s.png", userUUID.String()))
-
+	return c.SendFile(profileName)
 }
 
 type UpdateImageRequest struct {
