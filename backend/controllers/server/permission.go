@@ -69,5 +69,28 @@ func InjectPermissionToUserCtrl(c *fiber.Ctx) error {
 	return c.JSON(fiber.Map{
 		"message": "Success",
 	})
+}
 
+func DeleteTargetPermission(c *fiber.Ctx) error {
+	targetID, err := uuid.Parse(c.Query("target-id", ""))
+	if err != nil {
+		return c.Status(400).JSON(fiber.Map{
+			"message": "Invalid targetID",
+		})
+	}
+	db := database.DB
+	permissions := []models.Permission{}
+	if db.Where(&models.Permission{Target: targetID}).Find(&permissions).Error != nil {
+		return c.Status(500).JSON(fiber.Map{
+			"message": "Internal server error",
+		})
+	}
+	if db.Delete(&permissions).Error != nil {
+		return c.Status(500).JSON(fiber.Map{
+			"message": "Internal server error",
+		})
+	}
+	return c.JSON(fiber.Map{
+		"message": "Success",
+	})
 }
