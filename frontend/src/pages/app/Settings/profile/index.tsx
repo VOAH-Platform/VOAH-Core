@@ -3,10 +3,9 @@ import { format } from 'date-fns';
 import { useAtom } from 'jotai';
 import { User2Icon, UserCog2Icon } from 'lucide-react';
 
+import { API_HOST } from '@/apiClient';
 import { userAtom } from '@/atom';
 import { getProfileById } from '@/lib/query/profile';
-
-import { MD5 } from '../../AppHeader/md5';
 
 import {
   VoahSettingsProfileEditButton,
@@ -46,10 +45,9 @@ export function VoahSettingsProfile() {
             <VoahSettingsProfileUserInfoWrapper>
               <VoahSettingsProfileUserInfoImage>
                 <img
-                  alt="user's profile"
-                  src={`https://gravatar.com/avatar/${MD5(
-                    user.email.trim().toLowerCase(),
-                  )}?s=128&d=retro`}
+                  width="128"
+                  alt="User's Profile"
+                  src={`${API_HOST}/api/profile/image?user-id=${user.id}`}
                 />
               </VoahSettingsProfileUserInfoImage>
               <VoahSettingsProfileUserInfoTextWrapper>

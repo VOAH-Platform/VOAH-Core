@@ -8,7 +8,6 @@ import { API_HOST, apiClient } from '@/apiClient';
 import { headerAtom, userAtom } from '@/atom';
 import { useCustomContext } from '@/lib/context';
 
-import { MD5 } from './md5';
 import {
   CompanyName,
   HeaderWrapper,
@@ -67,7 +66,7 @@ export function AppHeader() {
             name: '설정',
             onClick: () => {
               hideContext();
-              navigate('/app/settings');
+              navigate('/app/settings/profile');
             },
           },
           {
@@ -102,16 +101,12 @@ export function AppHeader() {
         </CompanyWrapper>
       </LeftWrapper>
       <RightWrapper>
-        {/* <img
-          alt="User's Profile"
-          src={`${API_HOST}/api/profile/image?user-id=${user.id}`}></img> */}
         <ProfileWrapper ref={profileRef} onClick={handleProfileClick}>
           <ImageWrapper>
             <img
-              alt="user's profile"
-              src={`https://gravatar.com/avatar/${MD5(
-                user.email.trim().toLowerCase(),
-              )}?s=36&d=retro`}
+              width="36"
+              alt="User's Profile"
+              src={`${API_HOST}/api/profile/image?user-id=${user.id}`}
             />
           </ImageWrapper>
           {/* <StatusMargin />
