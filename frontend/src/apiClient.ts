@@ -9,11 +9,11 @@ export const apiClient = axios.create({
 });
 apiClient.interceptors.response.use(
   (res) => res,
-  (err: AxiosError) => {
+  async (err: AxiosError) => {
     const response = err.response;
     if (!response) return Promise.reject(err);
     if (response.status === 401 && response.data === 'Invalid or expired JWT') {
-      const userData = JSON.parse(localStorage.getItem('user')!) as {
+      const userData = JSON.parse(localStorage.getItem('voah__user')!) as {
         email: string;
         id: string;
         isLogin: boolean;
@@ -21,33 +21,36 @@ apiClient.interceptors.response.use(
         refreshToken: string;
       };
       // eslint-disable-next-line promise/no-promise-in-callback
-      axios
-        .post<{
+      try {
+        const res = await axios.post<{
           'access-token': string;
           message: string;
           exp: number;
         }>(`${API_HOST}/api/auth/refresh`, {
           'user-id': userData.id,
           'refresh-token': userData.refreshToken,
-        })
-        .then((res) => {
-          localStorage.setItem(
-            'user',
-            JSON.stringify({
-              email: userData.email,
-              id: userData.id,
-              isLogin: true,
-              accessToken: res.data['access-token'],
-              refreshToken: userData.refreshToken,
-            }),
-          );
-          window.location.reload();
-          return;
-        })
-        .catch((err) => {
-          console.log(err);
         });
+
+        localStorage.setItem(
+          'voah__user',
+          JSON.stringify({
+            email: userData.email,
+            id: userData.id,
+            isLogin: true,
+            accessToken: res.data['access-token'],
+            refreshToken: userData.refreshToken,
+          }),
+        );
+
+        window.location.reload();
+        return;
+      } catch (err) {
+        alert(err);
+        localStorage.removeItem('voah__user');
+        window.location.reload();
+        throw err;
+      }
     }
-    return Promise.reject(err);
+    return err;
   },
 );

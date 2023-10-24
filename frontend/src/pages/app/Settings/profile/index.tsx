@@ -7,6 +7,8 @@ import { API_HOST } from '@/apiClient';
 import { userAtom } from '@/atom';
 import { getProfileById } from '@/lib/query/profile';
 
+import { useSettingsInit } from '../logic';
+
 import {
   VoahSettingsProfileEditButton,
   VoahSettingsProfileHead,
@@ -24,6 +26,8 @@ import {
 
 export function VoahSettingsProfile() {
   const [user] = useAtom(userAtom);
+
+  useSettingsInit();
 
   const { data } = useQuery({
     queryKey: ['myData'],

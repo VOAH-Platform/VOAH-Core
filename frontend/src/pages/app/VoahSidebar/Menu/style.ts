@@ -8,12 +8,12 @@ export const VoahSideMenuWrapper = styled('div', {
   flexDirection: 'column',
   justifyContent: 'flex-start',
   alignItems: 'flex-start',
-  gap: '0.75rem',
   borderRadius: '1.25rem',
   background: '$gray100',
 });
 
 export const VoahSideMenuTitleWrapper = styled('div', {
+  marginBottom: '0.75rem',
   width: '100%',
   display: 'flex',
   flexDirection: 'column',

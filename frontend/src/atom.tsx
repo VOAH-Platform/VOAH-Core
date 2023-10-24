@@ -4,7 +4,7 @@ import { HomeIcon } from 'lucide-react';
 
 import { THEME_TOKEN } from './constant';
 
-export const themeAtom = atomWithStorage('theme', {
+export const themeAtom = atomWithStorage('voah__theme', {
   token: THEME_TOKEN.SYSTEM,
   isDark: false,
 });
@@ -18,7 +18,7 @@ interface UserData {
 }
 
 export const userAtom = atomWithStorage<UserData>(
-  'user',
+  'voah__user',
   {
     email: '',
     isLogin: false,
@@ -66,7 +66,7 @@ export const userAtom = atomWithStorage<UserData>(
   },
 );
 
-export const localDataAtom = atomWithStorage('localData', {
+export const localDataAtom = atomWithStorage('voah__localData', {
   lastPath: '/app',
 });
 
