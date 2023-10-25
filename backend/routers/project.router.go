@@ -19,4 +19,7 @@ func addProject(router *fiber.App) {
 	projectGroup.Post("/", func(c *fiber.Ctx) error {
 		return project.CreateProjectCtrl(c)
 	})
+	projectGroup.Delete("/", func(c *fiber.Ctx) error {
+		return project.DeleteProjectCtrl(c)
+	})
 }
