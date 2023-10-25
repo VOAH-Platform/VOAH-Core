@@ -13,8 +13,8 @@ import (
 
 type CreateProjectRequest struct {
 	Public      bool   `json:"public"`
-	Displayname string `json:"displayname"`
-	Description string `json:"description"`
+	Displayname string `json:"displayname" validate:"required,max=30"`
+	Description string `json:"description" validate:"required,max=200"`
 }
 
 func CreateProjectCtrl(c *fiber.Ctx) error {
