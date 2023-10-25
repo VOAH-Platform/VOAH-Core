@@ -27,4 +27,7 @@ func addServer(router *fiber.App) {
 	serverGroup.Post("/permission/injectuser", func(c *fiber.Ctx) error {
 		return server.InjectPermissionToUserCtrl(c)
 	})
+	serverGroup.Delete("/permission/delete", func(c *fiber.Ctx) error {
+		return server.DeleteTargetPermission(c)
+	})
 }
