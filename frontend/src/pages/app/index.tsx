@@ -2,7 +2,7 @@ import { useAtom } from 'jotai';
 import { useEffect } from 'react';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 
-import { headerAtom, localDataAtom, userAtom } from '@/atom';
+import { localDataAtom, userAtom } from '@/atom';
 
 import { AppHeader } from './AppHeader';
 import { AppWrapper } from './style';
@@ -11,7 +11,6 @@ import { VoahSidebar } from './VoahSidebar';
 
 export function AppLayout() {
   const [user] = useAtom(userAtom);
-  const [, setHeaderData] = useAtom(headerAtom);
   const [localData, setLocalData] = useAtom(localDataAtom);
 
   const navigate = useNavigate();
@@ -24,12 +23,6 @@ export function AppLayout() {
   }, [user]);
 
   useEffect(() => {
-    setHeaderData((prev) => {
-      return {
-        ...prev,
-        isHidden: true,
-      };
-    });
     setLocalData((prev) => {
       return {
         ...prev,

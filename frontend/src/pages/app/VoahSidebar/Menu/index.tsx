@@ -1,20 +1,30 @@
 import { atom, useAtom } from 'jotai';
 import { KeyRoundIcon } from 'lucide-react';
+import { NavigateFunction, useNavigate } from 'react-router-dom';
 
 import { LucideCustom } from '@/lib/LucideCustom';
 
 export interface Menu {
   icon: JSX.Element | string;
   name: string;
-  onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  onClick: ((e: React.MouseEvent<HTMLButtonElement>) => void) | string;
   mentioned?: number;
   isFocused?: boolean;
   categoryId?: string;
+  subButton?: {
+    icon: JSX.Element | string;
+    onClick: ((e: React.MouseEvent<HTMLButtonElement>) => void) | string;
+  };
   subMenu?: Array<Menu>;
 }
 
 export interface ParsedMenu extends Menu {
   icon: JSX.Element;
+  onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  subButton?: {
+    icon: JSX.Element;
+    onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  };
   subMenu?: Array<ParsedMenu>;
 }
 
@@ -60,16 +70,37 @@ function parseIcon(icon: JSX.Element | string): JSX.Element {
   );
 }
 
-function parseMenu(menus: Array<Menu>): Array<ParsedMenu> {
+function parseOnClick(
+  onClick: ((e: React.MouseEvent<HTMLButtonElement>) => void) | string,
+  navigate: NavigateFunction,
+) {
+  if (typeof onClick !== 'string') return onClick;
+  return () => {
+    navigate(onClick);
+  };
+}
+
+function parseMenu(
+  menus: Array<Menu>,
+  navigate: NavigateFunction,
+): Array<ParsedMenu> {
   return menus.map((menu) => ({
     ...menu,
     icon: parseIcon(menu.icon),
-    subMenu: parseMenu(menu.subMenu || []),
+    onClick: parseOnClick(menu.onClick, navigate),
+    subButton: menu.subButton && {
+      ...menu.subButton,
+      icon: parseIcon(menu.subButton.icon),
+      onClick: parseOnClick(menu.subButton.onClick, navigate),
+    },
+    subMenu: parseMenu(menu.subMenu || [], navigate),
   }));
 }
 
 export function useSideMenu() {
-  const [, setMenu] = useAtom(menuAtom);
+  const [menu, setMenu] = useAtom(menuAtom);
+
+  const navigate = useNavigate();
 
   return {
     setSideMenu(
@@ -80,8 +111,22 @@ export function useSideMenu() {
       setMenu({
         info,
         categories,
-        menus: parseMenu(menus),
+        menus: parseMenu(menus, navigate),
       });
+    },
+    setSideMenuInfo(info: { title: string; desc: string; hideDesc: boolean }) {
+      setMenu((prev) => {
+        return {
+          ...prev,
+          info: info,
+        };
+      });
+    },
+    getSideMenu() {
+      return menu;
+    },
+    getSideMenuInfo() {
+      return menu.info;
     },
   };
 }

@@ -46,6 +46,42 @@ export function VoahFrame() {
         case 'VOAH__USER_GET_TOKEN':
           voahMessages.user.getToken(user.accessToken);
           break;
+        case 'VOAH__SIDEBAR_SET_INFO':
+          voahMessages.sidebar.setSidebarInfo(
+            e.data.data as {
+              title: string;
+              desc: string;
+              hideDesc: boolean;
+            },
+          );
+          break;
+        case 'VOAH__SIDEBAR_SET_MENU':
+          voahMessages.sidebar.setSidebarMenu(
+            e.data.data as {
+              categories: Array<{
+                id: string;
+                name: string;
+              }>;
+              menus: Array<{
+                icon: string;
+                name: string;
+                onClick: string;
+                mentioned?: number;
+                isFocused?: boolean;
+                categoryId?: string;
+                subButton?: {
+                  icon: string;
+                  onClick: string;
+                };
+                subMenu?: Array<{
+                  icon: string;
+                  name: string;
+                  onClick: string;
+                }>;
+              }>;
+            },
+          );
+          break;
       }
     };
   }, [url]);
