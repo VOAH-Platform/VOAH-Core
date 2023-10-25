@@ -14,7 +14,7 @@ func PermissionCheck(userPerms []models.Permission, requirePerms []models.Permis
 				return true
 			} else if requrequirePerm.Type == userPerm.Type && requrequirePerm.Target == userPerm.Target {
 				if configs.AdminPermissionScope == userPerm.Scope {
-					break
+					return true
 				} else if requrequirePerm.Scope == userPerm.Scope {
 					return true
 				}
