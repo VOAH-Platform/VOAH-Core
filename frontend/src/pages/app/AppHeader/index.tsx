@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { API_HOST, apiClient } from '@/apiClient';
 import { headerAtom, userAtom } from '@/atom';
 import { useCustomContext } from '@/lib/context';
+import { ProfileImage } from '@/lib/ProfileImage';
 
 import {
   CompanyName,
@@ -103,11 +104,7 @@ export function AppHeader() {
       <RightWrapper>
         <ProfileWrapper ref={profileRef} onClick={handleProfileClick}>
           <ImageWrapper>
-            <img
-              width="36"
-              alt="User's Profile"
-              src={`${API_HOST}/api/profile/image?user-id=${user.id}`}
-            />
+            <ProfileImage width="36" />
           </ImageWrapper>
           {/* <StatusMargin />
           <Status /> */}

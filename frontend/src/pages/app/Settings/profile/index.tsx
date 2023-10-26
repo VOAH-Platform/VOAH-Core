@@ -3,8 +3,8 @@ import { format } from 'date-fns';
 import { useAtom } from 'jotai';
 import { User2Icon, UserCog2Icon } from 'lucide-react';
 
-import { API_HOST } from '@/apiClient';
 import { userAtom } from '@/atom';
+import { ProfileImage } from '@/lib/ProfileImage';
 import { getProfileById } from '@/lib/query/profile';
 
 import { useSettingsInit } from '../logic';
@@ -48,11 +48,7 @@ export function VoahSettingsProfile() {
           <VoahSettingsProfileHead>
             <VoahSettingsProfileUserInfoWrapper>
               <VoahSettingsProfileUserInfoImage>
-                <img
-                  width="128"
-                  alt="User's Profile"
-                  src={`${API_HOST}/api/profile/image?user-id=${user.id}`}
-                />
+                <ProfileImage />
               </VoahSettingsProfileUserInfoImage>
               <VoahSettingsProfileUserInfoTextWrapper>
                 <VoahSettingsProfileUserInfoDisplayName>

@@ -1,5 +1,4 @@
 import { atom, useAtom } from 'jotai';
-import { KeyRoundIcon } from 'lucide-react';
 import { NavigateFunction, useNavigate } from 'react-router-dom';
 
 import { LucideCustom } from '@/lib/LucideCustom';
@@ -41,21 +40,12 @@ export const menuAtom = atom<{
   menus: Array<ParsedMenu>;
 }>({
   info: {
-    title: 'VOAH TITLE',
-    desc: 'VOAH DESC',
+    title: 'Welcome to VOAH',
+    desc: '왼쪽에서 모듈을 선택하여 작업을 시작하세요',
     hideDesc: false,
   },
   categories: [],
-  menus: [
-    {
-      icon: <KeyRoundIcon size={20} />,
-      name: '개인정보 및 보안',
-      onClick: () => {
-        alert('준비중입니다.');
-      },
-      subMenu: [],
-    },
-  ],
+  menus: [],
 });
 
 function parseIcon(icon: JSX.Element | string): JSX.Element {
