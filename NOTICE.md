@@ -5,7 +5,9 @@ You can find the source code of these open source projects, along with applicabl
 
 We are deeply grateful to these developers for their work and contributions.
 
-Any questions about our use of licensed work can be sent to contact@implude.kr
+Any questions about our use of licensed work can be sent to <contact@implude.kr>
+
+## Backend Dependencies
 
 ### github.com/gofiber/fiber/v2
 
@@ -89,9 +91,10 @@ Copyright (c) 2009 The Go Authors. All rights reserved.
 BSD-3-Clause
 
 ### gorm.io/driver/postgres
+
 https://gorm.io/driver/postgres
 
-Copyright (c) 2013-NOW  Jinzhu <wosmvp@gmail.com>
+Copyright (c) 2013-NOW Jinzhu <wosmvp@gmail.com>
 
 MIT License
 
@@ -99,7 +102,7 @@ MIT License
 
 https://github.com/go-gorm/gorm
 
-Copyright (c) 2013-NOW  Jinzhu <wosmvp@gmail.com>
+Copyright (c) 2013-NOW Jinzhu <wosmvp@gmail.com>
 
 MIT License
 
@@ -207,7 +210,7 @@ MIT License
 
 https://github.com/jinzhu/now
 
-Copyright (c) 2013-NOW  Jinzhu <wosmvp@gmail.com>
+Copyright (c) 2013-NOW Jinzhu <wosmvp@gmail.com>
 
 MIT License
 
@@ -215,7 +218,7 @@ MIT License
 
 https://github.com/klauspost/compress
 
-``````
+```
 Copyright (c) 2012 The Go Authors. All rights reserved.
 Copyright (c) 2019 Klaus Post. All rights reserved.
 
@@ -246,7 +249,8 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 ------------------
-``````
+```
+
 Apache License 2.0
 
 ### github.com/leodido/go-urn
@@ -359,10 +363,83 @@ Copyright (c) 2015 Dean Karn
 
 MIT License
 
+## Frontend Dependencies
 
-# Apache License 2.0 #
+### [@stitches/react](https://github.com/stitchesjs/stitches)
 
-``````````
+Copyright (c) 2022 WorkOS
+
+MIT License
+
+### [@tanstack/react-query](https://github.com/tanstack/query)
+
+Copyright (c) 2021-present Tanner Linsley
+
+MIT License
+
+### [axios](https://github.com/axios/axios)
+
+Copyright (c) 2014-present Matt Zabriskie & Collaborators
+
+MIT License
+
+### [date-fns](https://github.com/date-fns/date-fns)
+
+Copyright (c) 2021 Sasha Koss and Lesha Koss <https://kossnocorp.mit-license.org>
+
+MIT License
+
+### [framer-motion](https://github.com/framer/motion)
+
+Copyright (c) 2018 Framer B.V.
+
+MIT License
+
+### [jotai](https://github.com/pmndrs/jotai)
+
+Copyright (c) 2020-2023 Poimandres
+
+MIT License
+
+### [lucide-react](https://github.com/lucide-icons/lucide)
+
+Copyright (c) for portions of Lucide are held by Cole Bemis 2013-2022 as part of Feather (MIT). All other copyright (c) for Lucide are held by Lucide Contributors 2022.
+
+ISC License
+
+### [react](https://github.com/facebook/react)
+
+Copyright (c) Meta Platforms, Inc. and affiliates.
+
+MIT License
+
+### [react-alert](https://github.com/schiehll/react-alert)
+
+Copyright (c) schiehll
+
+MIT License
+
+### [react-dom](https://github.com/facebook/react)
+
+Copyright (c) Meta Platforms, Inc. and affiliates.
+
+MIT License
+
+### [react-router-dom](https://github.com/remix-run/react-router)
+
+Copyright (c) React Training LLC 2015-2019 Copyright (c) Remix Software Inc. 2020-2021 Copyright (c) Shopify Inc. 2022-2023
+
+MIT License
+
+### [react-select](https://github.com/JedWatson/react-select/tree/master)
+
+Copyright (c) 2022 Jed Watson
+
+MIT License
+
+# Apache License 2.0
+
+```
 
 
                                  Apache License
@@ -566,12 +643,11 @@ MIT License
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.
-``````````
+```
 
+# BSD 2-Clause "Simplified" License
 
-# BSD 2-Clause "Simplified" License #
-
-``````````
+```
 Copyright (c) <year> <owner> . All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -581,11 +657,11 @@ Redistribution and use in source and binary forms, with or without modification,
    2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
 
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-``````````
+```
 
-# BSD 3-Clause "New" or "Revised" License #
+# BSD 3-Clause "New" or "Revised" License
 
-``````````
+```
 Copyright (c) <year> <owner> . All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -597,11 +673,11 @@ Redistribution and use in source and binary forms, with or without modification,
    3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
 
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-``````````
+```
 
-# MIT License #
+# MIT License
 
-``````````
+```
 MIT License
 
 Copyright (c) <year> <copyright holders>
@@ -611,6 +687,4 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-``````````
-
-
+```
