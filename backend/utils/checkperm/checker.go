@@ -32,22 +32,26 @@ func GetUserRoleArr(user *models.User) ([]models.Role, error) {
 	return *userRoles, nil
 }
 
+func GetPermissionByRoleArr(roles []models.Role) ([]models.Permission, error) {
+	var err error
+	perms := new([]models.Permission)
+	for _, role := range roles {
+		tempPermissions := new([]models.Permission)
+		if err = database.DB.Model(&role).Association("Permissions").Find(tempPermissions); err != nil && err != gorm.ErrRecordNotFound {
+			return nil, err
+		}
+		*perms = append(*perms, *tempPermissions...)
+	}
+	return *perms, nil
+}
+
 func GetUserPermissionArr(user *models.User) ([]models.Permission, error) {
 	var err error
 	userRoles, err := GetUserRoleArr(user)
 	if err != nil {
 		return nil, err
 	}
-
-	userPerms := new([]models.Permission)
-	for _, role := range userRoles {
-		tempPermissions := new([]models.Permission)
-		if err = database.DB.Model(&role).Association("Permissions").Find(tempPermissions); err != nil && err != gorm.ErrRecordNotFound {
-			return nil, err
-		}
-		*userPerms = append(*userPerms, *tempPermissions...)
-	}
-	return *userPerms, nil
+	return GetPermissionByRoleArr(userRoles)
 }
 
 func UserPermissionCheck(user *models.User, requirePerms []models.Permission) (hasPerm bool, err error) {

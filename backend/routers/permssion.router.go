@@ -26,6 +26,9 @@ func addPermission(router *fiber.App) {
 	permissionGroup.Get("/", func(c *fiber.Ctx) error {
 		return permission.GetMyPermissions(c)
 	})
+	permissionGroup.Get("/personal", func(c *fiber.Ctx) error {
+		return permission.GetPersonalPermission(c)
+	})
 	permWSGroup := router.Group("/api/ws/permission")
 	permWSGroup.Get("/", websocket.New(wshandler.PermissionWebsocket()))
 }
