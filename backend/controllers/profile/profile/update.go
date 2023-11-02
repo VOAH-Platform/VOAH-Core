@@ -13,6 +13,7 @@ type UpdateProfileRequest struct {
 	Displayname string `json:"displayname" validate:"required,min=1,max=30"`
 	Position    string `json:"position" validate:"max=30"`
 	Description string `json:"description" validate:"max=240"`
+	DND         bool   `json:"dnd"`
 }
 
 func UpdateProfileCtrl(c *fiber.Ctx) error {
@@ -53,6 +54,7 @@ func UpdateProfileCtrl(c *fiber.Ctx) error {
 	user.Displayname = updateRequest.Displayname
 	user.Position = updateRequest.Position
 	user.Description = updateRequest.Description
+	user.DND = updateRequest.DND
 	if db.Save(&user).Error != nil {
 		return c.Status(500).JSON(fiber.Map{
 			"message": "Internal server error",
