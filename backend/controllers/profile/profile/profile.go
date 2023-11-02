@@ -2,14 +2,15 @@ package profile
 
 import (
 	"context"
+	"fmt"
 	"strconv"
 	"time"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
 	"implude.kr/VOAH-Backend-Core/database"
-	"implude.kr/VOAH-Backend-Core/middleware"
 	"implude.kr/VOAH-Backend-Core/models"
+	"implude.kr/VOAH-Backend-Core/utils/logger"
 	"implude.kr/VOAH-Backend-Core/utils/validator"
 )
 
@@ -33,11 +34,30 @@ func GetProfileCtrl(c *fiber.Ctx) error {
 	db := database.DB
 	user := new(models.User)
 
-	if db.First(&user, uuid.MustParse(profileRequest.UserID)).Error != nil && !user.Visible {
+	if db.Model(&models.User{}).First(&user, uuid.MustParse(profileRequest.UserID)).Error != nil && !user.Visible {
 		return c.Status(400).JSON(fiber.Map{
 			"message": "User not found",
 		})
 	}
+	log := logger.Logger
+	log.Info(user.Displayname)
+	userRoles := []models.Role{}
+	if db.Model(&user).Association("Roles").Find(&userRoles) != nil {
+		return c.Status(500).JSON(fiber.Map{
+			"message": "Internal server error",
+		})
+	}
+	userProjects := []models.Project{}
+	if db.Model(&user).Association("Projects").Find(&userProjects) != nil {
+		return c.Status(500).JSON(fiber.Map{
+			"message": "Internal server error",
+		})
+	}
+
+	user.Roles = userRoles
+	fmt.Println(userRoles)
+	fmt.Println(userProjects)
+	user.Projects = userProjects
 
 	// get last activity and refresh
 	var lastActivity int64
@@ -75,42 +95,5 @@ func GetProfileCtrl(c *fiber.Ctx) error {
 		"user":          user,
 		"last-activity": lastActivity,
 		"last-refresh":  lastRefresh,
-	})
-}
-
-type UpdateProfileRequest struct {
-	Displayname string `json:"displayname" validate:"required,min=1,max=30"`
-	Position    string `json:"position" validate:"max=30"`
-}
-
-func UpdateProfileCtrl(c *fiber.Ctx) error {
-	user, err := middleware.GetUserFromMiddleware(c)
-
-	if err != nil {
-		return c.Status(500).JSON(fiber.Map{
-			"message": "Internal server error",
-		})
-	}
-
-	updateRequest := new(UpdateProfileRequest)
-	if errArr := validator.ParseAndValidate(c, updateRequest); errArr != nil {
-		return c.Status(400).JSON(fiber.Map{
-			"message": "Invalid request body",
-			"errArr":  errArr,
-		})
-	}
-
-	db := database.DB
-
-	// update user
-	user.Displayname = updateRequest.Displayname
-	user.Position = updateRequest.Position
-	if db.Save(&user).Error != nil {
-		return c.Status(500).JSON(fiber.Map{
-			"message": "Internal server error",
-		})
-	}
-	return c.JSON(fiber.Map{
-		"message": "Profile Update Success",
 	})
 }

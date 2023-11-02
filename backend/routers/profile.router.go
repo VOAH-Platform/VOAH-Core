@@ -4,7 +4,7 @@ import (
 	jwtware "github.com/gofiber/contrib/jwt"
 	"github.com/gofiber/fiber/v2"
 	"implude.kr/VOAH-Backend-Core/configs"
-	"implude.kr/VOAH-Backend-Core/controllers/profile"
+	"implude.kr/VOAH-Backend-Core/controllers/profile/profile"
 	"implude.kr/VOAH-Backend-Core/controllers/profile/profileimage"
 	"implude.kr/VOAH-Backend-Core/middleware"
 )
