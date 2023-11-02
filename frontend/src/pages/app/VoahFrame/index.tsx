@@ -1,8 +1,9 @@
 import { useAtom } from 'jotai';
 import { SendIcon } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 
-import { userAtom } from '@/atom';
+import { localDataAtom, moduleAtom, userAtom } from '@/atom';
 import { css } from '@/stitches.config';
 
 import { useVoahMessageFunc } from './logic';
@@ -15,11 +16,15 @@ import {
 
 export function VoahFrame() {
   const [user] = useAtom(userAtom);
+  const [module] = useAtom(moduleAtom);
+  const [localData] = useAtom(localDataAtom);
 
   // const [devMode, setDevMode] = useState(true);
   const [url, setUrl] = useState('');
 
   const frameRef = useRef<HTMLIFrameElement>(null);
+
+  const location = useLocation();
 
   const { port1, port2 } = new MessageChannel();
 
@@ -86,29 +91,40 @@ export function VoahFrame() {
     };
   }, [url]);
 
+  useEffect(() => {
+    if (location.pathname.startsWith('/app/m')) {
+      const id = location.pathname.split('/')[3];
+      const idx = module.indexMap.get(Number(id));
+      if (idx === undefined) return;
+      const moduleData = module.data[idx];
+      setUrl(moduleData['host-url']);
+    }
+  }, [location]);
+
   return (
     <VoahFrameWrapper>
-      <AddressBarWrapper>
-        <AddressBar
-          value={inputVal}
-          onChange={(e) => {
-            setInputVal(e.target.value);
-          }}
-          placeholder="모듈 URL을 입력하세요"
-        />
-        <AddressBarBtn
-          onClick={() => {
-            setUrl(inputVal);
-          }}>
-          <SendIcon size={20} />
-        </AddressBarBtn>
-      </AddressBarWrapper>
+      {localData.isDevMode && (
+        <AddressBarWrapper>
+          <AddressBar
+            value={inputVal}
+            onChange={(e) => {
+              setInputVal(e.target.value);
+            }}
+            placeholder="모듈 URL을 입력하세요"
+          />
+          <AddressBarBtn
+            onClick={() => {
+              setUrl(inputVal);
+            }}>
+            <SendIcon size={20} />
+          </AddressBarBtn>
+        </AddressBarWrapper>
+      )}
       <iframe
         className={css({
           width: '100%',
           height: '100%',
-          border: '2px solid $gray300',
-          borderRadius: '0.75rem',
+          border: 'none',
         })()}
         ref={frameRef}
         title="module"

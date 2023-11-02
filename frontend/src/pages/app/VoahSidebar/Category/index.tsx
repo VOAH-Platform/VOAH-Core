@@ -4,13 +4,14 @@ import { AtomIcon, Building2Icon, MessageSquareIcon } from 'lucide-react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { userAtom } from '@/atom';
+import { moduleAtom, userAtom } from '@/atom';
 import { getProfileById } from '@/lib/query/profile';
 
 import { VoahSideCategoryTypeButton, VoahSideCategoryWrapper } from './style';
 
 export function VoahSideCategory() {
   const [user] = useAtom(userAtom);
+  const [module] = useAtom(moduleAtom);
 
   const [sideType, setSideType] = useState<'company' | 'project'>('company');
 
@@ -19,7 +20,9 @@ export function VoahSideCategory() {
   const { data } = useQuery({
     queryKey: ['myData'],
     queryFn: async () => {
-      return await getProfileById(user.id, user.accessToken);
+      const data = await getProfileById(user.id, user.accessToken);
+      console.log('myData', data);
+      return data;
     },
     enabled: user.isLogin,
   });
@@ -47,12 +50,17 @@ export function VoahSideCategory() {
       </VoahSideCategoryTypeButton>
       {sideType === 'company' && (
         <>
-          <VoahSideCategoryTypeButton
-            onClick={() => {
-              navigate('/app/m');
-            }}>
-            <MessageSquareIcon size={24} />
-          </VoahSideCategoryTypeButton>
+          {module.data.map((val, idx) => (
+            <VoahSideCategoryTypeButton
+              key={idx}
+              onClick={() => {
+                navigate(`/app/m/${val.id}`);
+              }}>
+              {val.name === 'VOAH-Official-Message' && (
+                <MessageSquareIcon size={24} />
+              )}
+            </VoahSideCategoryTypeButton>
+          ))}
         </>
       )}
       {sideType === 'project' && <></>}

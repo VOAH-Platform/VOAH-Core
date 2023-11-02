@@ -62,7 +62,7 @@ export function VoahSideMenu() {
 
   useEffect(() => {
     setMenu(parseMenuToTree(menuData.categories, menuData.menus));
-  }, []);
+  }, [menuData]);
 
   return (
     <VoahSideMenuWrapper>

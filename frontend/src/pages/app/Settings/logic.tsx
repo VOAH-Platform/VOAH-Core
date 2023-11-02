@@ -1,7 +1,7 @@
 import { useAtom } from 'jotai';
 import { HandIcon, KeyRoundIcon } from 'lucide-react';
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { API_HOST } from '@/apiClient';
 import { userAtom } from '@/atom';
@@ -14,6 +14,7 @@ export function useSettingsInit() {
   const sideMenu = useSideMenu();
 
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     sideMenu.setSideMenu(
@@ -66,5 +67,5 @@ export function useSettingsInit() {
         },
       ],
     );
-  }, [user.id]);
+  }, [user.id, location]);
 }

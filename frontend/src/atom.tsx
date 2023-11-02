@@ -68,10 +68,30 @@ export const userAtom = atomWithStorage<UserData>(
 
 export const localDataAtom = atomWithStorage('voah__localData', {
   lastPath: '/app',
+  useUndelineOnLink: false,
+  isDevMode: false,
 });
 
 export const headerAtom = atom({
   isHidden: true,
   icon: <HomeIcon size={20} />,
   name: '메인',
+});
+
+export interface ModuleData {
+  id: number;
+  enabled: boolean;
+  version: string;
+  name: string;
+  description: string;
+  'host-url': string;
+  'permission-types': string;
+  'permission-scopes': string;
+  'created-at': string;
+  'updated-at': string;
+}
+
+export const moduleAtom = atom({
+  data: [] as Array<ModuleData>,
+  indexMap: new Map<number, number>(),
 });
