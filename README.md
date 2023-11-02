@@ -13,6 +13,45 @@ We were using assistant programs like “Mattermost”, “Notion” and “Gith
 # Quick Start - 빠른 시작
 
 1. Prepare PostgreSQL, Redis and SMTP Server(if you don’t have it, you can use gmail smtp) - PostgreSQL과 Redis, SMTP Server(없다면 다면 gmail smtp를 사용할 수 있습니다)를 준비합니다
+   ```bash
+   docker network create voah
+   ```
+   ```yaml
+   version: '3'
+
+   services:
+     postgres:
+       container_name: voah-core-postgres-dev
+       image: postgres:alpine
+       restart: always
+       hostname: voah-core-postgres
+       environment:
+         POSTGRES_PASSWORD: password
+         POSTGRES_USER: postgres
+         POSTGRES_DB: voah-core
+       ports:
+         - 5432:5432
+       expose:
+         - 5432
+       volumes:
+         - ./postgres-data:/var/lib/postgresql/data
+     redis:
+       container_name: voah-core-redis-dev
+       image: redis:alpine
+       restart: always
+       hostname: voah-core-redis
+       ports:
+         - 6379:6379
+       expose:
+         - 6379
+       volumes:
+         - ./redis-data:/data
+       command: redis-server --requirepass password --port 6379
+   networks:
+     default:
+       name: voah
+       external: true
+   ```
 
 1. Clone the Repository - 레포지토리를 복제합니다
 
