@@ -81,6 +81,7 @@ export const headerAtom = atom({
 export interface ModuleData {
   id: number;
   enabled: boolean;
+  expose: boolean;
   version: string;
   name: string;
   description: string;

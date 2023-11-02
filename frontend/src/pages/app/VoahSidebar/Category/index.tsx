@@ -50,17 +50,21 @@ export function VoahSideCategory() {
       </VoahSideCategoryTypeButton>
       {sideType === 'company' && (
         <>
-          {module.data.map((val, idx) => (
-            <VoahSideCategoryTypeButton
-              key={idx}
-              onClick={() => {
-                navigate(`/app/m/${val.id}`);
-              }}>
-              {val.name === 'VOAH-Official-Message' && (
-                <MessageSquareIcon size={24} />
-              )}
-            </VoahSideCategoryTypeButton>
-          ))}
+          {module.data.map((val, idx) => {
+            if (!val.expose) return null;
+
+            return (
+              <VoahSideCategoryTypeButton
+                key={idx}
+                onClick={() => {
+                  navigate(`/app/m/${val.id}`);
+                }}>
+                {val.name === 'VOAH-Official-Message' && (
+                  <MessageSquareIcon size={24} />
+                )}
+              </VoahSideCategoryTypeButton>
+            );
+          })}
         </>
       )}
       {sideType === 'project' && <></>}
