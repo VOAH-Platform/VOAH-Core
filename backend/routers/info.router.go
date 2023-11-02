@@ -24,4 +24,7 @@ func addInfo(router *fiber.App) {
 	infoModuleGroup.Get("", func(c *fiber.Ctx) error {
 		return info.GetModuleList(c)
 	})
+	infoModuleGroup.Post("", func(c *fiber.Ctx) error {
+		return info.AddModuleCtrl(c)
+	})
 }
