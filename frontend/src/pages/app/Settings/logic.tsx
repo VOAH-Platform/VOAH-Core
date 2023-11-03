@@ -61,7 +61,7 @@ export function useSettingsInit() {
           icon: <HandIcon size={20} />,
           name: '테마 및 접근성',
           onClick: () => {
-            alert('준비중입니다.');
+            navigate('/app/settings/accessibility');
           },
           subMenu: [],
         },

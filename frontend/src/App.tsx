@@ -11,6 +11,7 @@ import { darkTheme, globalStyles } from '@/stitches.config';
 
 import { CustomContextProvider } from './lib/context';
 import { AppLayout } from './pages/app';
+import { AccessibilityPage } from './pages/app/Settings/accessibility';
 import { VoahSettingsProfile } from './pages/app/Settings/profile';
 import { LogoutPage } from './pages/auth/logout';
 
@@ -68,6 +69,10 @@ function App() {
             <Route
               path="/app/settings/profile"
               element={<VoahSettingsProfile />}
+            />
+            <Route
+              path="/app/settings/accessibility"
+              element={<AccessibilityPage />}
             />
             <Route path="/app/*" element={<NotFoundPage />} />
           </Route>

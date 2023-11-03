@@ -1,3 +1,6 @@
+import { apiClient } from '@/apiClient';
+import { UserData } from '@/atom';
+
 import { Menu, useSideMenu } from '../VoahSidebar/Menu';
 
 export function useVoahMessageFunc(port1: MessagePort) {
@@ -14,9 +17,38 @@ export function useVoahMessageFunc(port1: MessagePort) {
           data: accessToken,
         });
       },
+      getUser: (user: UserData) => {
+        port1.postMessage({
+          type: 'VOAH__USER_GET_USER_DONE',
+          data: user,
+        });
+      },
+      getProfile: async (accessToken: string, id: string) => {
+        const response = await apiClient.get(`/api/profile?user-id=${id}`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+        const data = {
+          ...response.data,
+          accessToken,
+        } as {
+          user: {
+            'user-id': string;
+            username: string;
+            email: string;
+          };
+          accessToken: string;
+        };
+        console.log('profile data', data);
+        port1.postMessage({
+          type: 'VOAH__USER_GET_PROFILE_DONE',
+          data: data,
+        });
+      },
     },
     sidebar: {
-      setSidebarInfo: (data: {
+      useSidebarInfo: (data: {
         title: string;
         desc: string;
         hideDesc: boolean;
@@ -24,7 +56,7 @@ export function useVoahMessageFunc(port1: MessagePort) {
         const sideMenu = useSideMenu();
         sideMenu.setSideMenuInfo(data);
       },
-      setSidebarMenu: (data: {
+      useSidebarMenu: (data: {
         categories: Array<{ id: string; name: string }>;
         menus: Array<Menu>;
       }) => {

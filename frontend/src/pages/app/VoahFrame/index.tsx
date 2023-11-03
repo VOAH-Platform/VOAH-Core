@@ -3,7 +3,7 @@ import { SendIcon } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
-import { localDataAtom, moduleAtom, userAtom } from '@/atom';
+import { localDataAtom, moduleAtom, themeAtom, userAtom } from '@/atom';
 import { css } from '@/stitches.config';
 
 import { useVoahMessageFunc } from './logic';
@@ -18,6 +18,7 @@ export function VoahFrame() {
   const [user] = useAtom(userAtom);
   const [module] = useAtom(moduleAtom);
   const [localData] = useAtom(localDataAtom);
+  const [theme] = useAtom(themeAtom);
 
   // const [devMode, setDevMode] = useState(true);
   const [url, setUrl] = useState('');
@@ -32,64 +33,86 @@ export function VoahFrame() {
 
   const voahMessages = useVoahMessageFunc(port1);
 
-  useEffect(() => {
-    frameRef.current?.contentWindow?.postMessage('VOAH__FRAME_INIT', '*', [
-      port2,
-    ]);
-
-    port1.onmessage = (
-      e: MessageEvent<{
-        type: string;
-        data: unknown;
-      }>,
-    ) => {
-      console.log(e.data);
-      switch (e.data.type) {
-        case 'VOAH__FRAME_INIT_DONE':
-          voahMessages.frame.initDone(url);
-          break;
-        case 'VOAH__USER_GET_TOKEN':
-          voahMessages.user.getToken(user.accessToken);
-          break;
-        case 'VOAH__SIDEBAR_SET_INFO':
-          voahMessages.sidebar.setSidebarInfo(
-            e.data.data as {
-              title: string;
-              desc: string;
-              hideDesc: boolean;
-            },
-          );
-          break;
-        case 'VOAH__SIDEBAR_SET_MENU':
-          voahMessages.sidebar.setSidebarMenu(
-            e.data.data as {
-              categories: Array<{
-                id: string;
-                name: string;
-              }>;
-              menus: Array<{
+  port1.onmessage = (
+    e: MessageEvent<{
+      type: string;
+      data: unknown;
+    }>,
+  ) => {
+    console.log(e.data);
+    switch (e.data.type) {
+      case 'VOAH__FRAME_INIT_DONE':
+        voahMessages.frame.initDone(url);
+        port1.postMessage({
+          type: 'VOAH__THEME_SET',
+          data: theme.token,
+        });
+        break;
+      case 'VOAH__USER_GET_TOKEN':
+        voahMessages.user.getToken(user.accessToken);
+        break;
+      case 'VOAH__USER_GET_USER':
+        voahMessages.user.getUser(user);
+        break;
+      case 'VOAH__USER_GET_PROFILE':
+        void voahMessages.user.getProfile(
+          user.accessToken,
+          e.data.data as string,
+        );
+        break;
+      case 'VOAH__SIDEBAR_SET_INFO':
+        voahMessages.sidebar.useSidebarInfo(
+          e.data.data as {
+            title: string;
+            desc: string;
+            hideDesc: boolean;
+          },
+        );
+        break;
+      case 'VOAH__SIDEBAR_SET_MENU':
+        voahMessages.sidebar.useSidebarMenu(
+          e.data.data as {
+            categories: Array<{
+              id: string;
+              name: string;
+            }>;
+            menus: Array<{
+              icon: string;
+              name: string;
+              onClick: string;
+              mentioned?: number;
+              isFocused?: boolean;
+              categoryId?: string;
+              subButton?: {
+                icon: string;
+                onClick: string;
+              };
+              subMenu?: Array<{
                 icon: string;
                 name: string;
                 onClick: string;
-                mentioned?: number;
-                isFocused?: boolean;
-                categoryId?: string;
-                subButton?: {
-                  icon: string;
-                  onClick: string;
-                };
-                subMenu?: Array<{
-                  icon: string;
-                  name: string;
-                  onClick: string;
-                }>;
               }>;
-            },
-          );
-          break;
-      }
-    };
+            }>;
+          },
+        );
+        break;
+    }
+  };
+
+  useEffect(() => {
+    setTimeout(() => {
+      frameRef.current?.contentWindow?.postMessage('VOAH__FRAME_INIT', '*', [
+        port2,
+      ]);
+    }, 1000);
   }, [url]);
+
+  useEffect(() => {
+    port1.postMessage({
+      type: 'VOAH__THEME_SET',
+      data: theme.token,
+    });
+  }, [theme]);
 
   useEffect(() => {
     if (location.pathname.startsWith('/app/m')) {
@@ -97,7 +120,9 @@ export function VoahFrame() {
       const idx = module.indexMap.get(Number(id));
       if (idx === undefined) return;
       const moduleData = module.data[idx];
-      setUrl(moduleData['host-url']);
+      // cut pathname from 3 to last
+      const extra = location.pathname.split('/').slice(4).join('/');
+      setUrl(`${moduleData['host-url']}/${extra}`);
     }
   }, [location]);
 

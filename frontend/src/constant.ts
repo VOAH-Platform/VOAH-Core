@@ -1,5 +1,5 @@
 export enum THEME_TOKEN {
-  LIGHT,
-  DARK,
-  SYSTEM,
+  LIGHT = 0,
+  DARK = 1,
+  SYSTEM = 2,
 }

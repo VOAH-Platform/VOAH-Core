@@ -13,7 +13,7 @@ import { FormCheckbox } from '@/components/FormCheckbox';
 import { FormInput } from '@/components/FormInput';
 import { FormSelect } from '@/components/FormSelect';
 import { THEME_TOKEN } from '@/constant';
-import { css } from '@/stitches.config';
+import { css, globalCss } from '@/stitches.config';
 
 import { useVerifyLogic } from './logic';
 import {
@@ -68,6 +68,12 @@ export function VerifyPage() {
   const paramType = params.get('type');
   const paramCode = params.get('code');
   const paramEmail = params.get('email');
+
+  globalCss({
+    '#root': {
+      overflowY: 'scroll !important',
+    },
+  })();
 
   useEffect(() => {
     if (!paramCode) {

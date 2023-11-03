@@ -57,7 +57,16 @@ export function VoahSideCategory() {
               <VoahSideCategoryTypeButton
                 key={idx}
                 onClick={() => {
-                  navigate(`/app/m/${val.id}`);
+                  switch (val.name) {
+                    case 'VOAH-Official-Message':
+                      if (sideType === 'company') {
+                        navigate(`/app/m/1/${data?.data.user['team-id']}`);
+                      }
+                      break;
+                    default:
+                      navigate(`/app/m/${val.id}`);
+                      break;
+                  }
                 }}>
                 {val.name === 'VOAH-Official-Message' && (
                   <MessageSquareIcon size={24} />

@@ -9,7 +9,7 @@ export const themeAtom = atomWithStorage('voah__theme', {
   isDark: false,
 });
 
-interface UserData {
+export interface UserData {
   email: string;
   isLogin: boolean;
   id: string;
@@ -69,7 +69,7 @@ export const userAtom = atomWithStorage<UserData>(
 export const localDataAtom = atomWithStorage('voah__localData', {
   lastPath: '/app',
   useUndelineOnLink: false,
-  isDevMode: false,
+  isDevMode: true,
 });
 
 export const headerAtom = atom({
