@@ -53,25 +53,25 @@ We were using assistant programs like “Mattermost”, “Notion” and “Gith
        external: true
    ```
 
-1. Clone the Repository - 레포지토리를 복제합니다
+2. Clone the Repository - 레포지토리를 복제합니다
 
 ```bash
 git clone https://github.com/VOAH-Platform/VOAH-Core.git
 ```
 
-1. Enter the Directory - 디렉토리로 이동합니다
+3. Enter the Directory - 디렉토리로 이동합니다
 
 ```bash
 cd ./VOAH-Core
 ```
 
-1. Rename the “setting.example.json” - “setting.example.json” 파일의 이름을 바꿉니다
+4. Rename the “setting.example.json” - “setting.example.json” 파일의 이름을 바꿉니다
 
 ```bash
 mv ./backend/data/setting.example.json ./backend/data/setting.json
 ```
 
-1. create “.env” and add environment - “.env” 파일을 만들고 환경변수를 추가합니다
+5. create “.env” and add environment - “.env” 파일을 만들고 환경변수를 추가합니다
 
 ```bash
 touch .env
@@ -107,13 +107,32 @@ VOAH_ROOT_PW_HASH=<<BCRYPT Hashed Root Password>>
 EOF
 ```
 
-1. Build and Deploy It - 빌드하고 실행하세요
+6. Build and Deploy It - 빌드하고 실행하세요
 
 ```bash
 docker build -t voah-core-back:latest .
 docker run --env-file=.env -p 8080:8080 -v ./backend/data:/data --rm -h voah-core --name voah-core voah-core-back:latest
 ```
-
+Add. Docker Compose - 빌드 없이 실행
+   ```yaml
+   version: '3'
+   
+   services:
+     voah-core-dev:
+       container_name: voah-core-dev
+       image: implude/voah-core-dev
+       restart: always
+       env_file:
+         - .env
+       expose:
+         - 8080
+       volumes:
+         - ./backend/data:/data
+   networks:
+     default:
+       name: voah
+       external: true
+   ```
 # Customizing - 커스터마이징
 
 "VOAH" support various customization feature. Check below document to see detail.
