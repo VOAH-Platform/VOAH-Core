@@ -68,6 +68,8 @@ cd ./VOAH-Core
 4. Rename the “setting.example.json” - “setting.example.json” 파일의 이름을 바꿉니다
 
 ```bash
+mkdir backend
+mkdir backend/data
 mv ./backend/data/setting.example.json ./backend/data/setting.json
 ```
 
