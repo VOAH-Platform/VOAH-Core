@@ -2,6 +2,7 @@ package passreset
 
 import (
 	"context"
+	"fmt"
 	"strings"
 	"time"
 
@@ -40,13 +41,14 @@ func PassResetCtrl(c *fiber.Ctx) error {
 
 	smtpConf := configs.Env.SMTP
 	authSetting := configs.Setting.Auth
+	serverConf := configs.Env.Server
 	code := uuid.New().String()
 
 	mail := &smtpsender.Mail{
 		From:    smtpConf.SystemAddress,
 		Tos:     []string{passResetRequest.Email},
 		Subject: authSetting.PasswordResetEmailSubject,
-		Body:    strings.ReplaceAll(authSetting.PasswordResetEmailBody, "{{link}}", code),
+		Body:    strings.ReplaceAll(authSetting.PasswordResetEmailBody, "{{link}}", fmt.Sprintf("%s/auth/verify?type=passreset&email=%s&code=%s", serverConf.HostURL, passResetRequest.Email, code)),
 	}
 
 	go mail.ConnectAndSend()
