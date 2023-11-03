@@ -20,7 +20,7 @@ We were using assistant programs like “Mattermost”, “Notion” and “Gith
    version: '3'
 
    services:
-     postgres:
+     voah-core:
        container_name: voah-core-postgres-dev
        image: postgres:alpine
        restart: always
